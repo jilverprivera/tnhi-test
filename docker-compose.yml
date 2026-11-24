@@ -22,6 +22,8 @@ services:
       retries: 5
   web:
     build: { context: ., dockerfile: web/Dockerfile }
+    # Demo hints come from web/.env.local; the API address is the compose service.
+    env_file: ./web/.env.local
     environment:
       DOCKET_API_URL: http://api:8000
     ports: ["3000:3000"]

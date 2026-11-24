@@ -1,7 +1,16 @@
+import { connection } from "next/server";
+import { Suspense } from "react";
+
 import { copy } from "@/shared/i18n/es";
 import { Logo } from "@/shared/ui/atoms/Logo";
 
 import { LoginForm } from "../organisms/LoginForm";
+
+/** Read at request time, so a Docker image built without the variables still picks them up. */
+async function LoginFormWithDemoCodes() {
+  await connection();
+  return <LoginForm demoCodes={{ CLERK: process.env.DOCKET_DEMO_CLERK_CODE, COORDINATOR: process.env.DOCKET_DEMO_COORDINATOR_CODE }} />;
+}
 
 export function LoginTemplate() {
   return (
@@ -15,7 +24,9 @@ export function LoginTemplate() {
           </div>
         </div>
         <div className="rounded-2xl border bg-card p-6 shadow-md">
-          <LoginForm />
+          <Suspense fallback={<div aria-hidden className="h-80 animate-pulse rounded-xl bg-muted" />}>
+            <LoginFormWithDemoCodes />
+          </Suspense>
         </div>
         <p className="text-center text-caption text-muted-foreground">
           Nada se reenvía sin su aprobación. Los datos se quedan en los servidores de TAC.

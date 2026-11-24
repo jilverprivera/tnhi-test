@@ -1,22 +1,27 @@
-# Render blueprint: demo API (Docker) with persistent disk. Fictitious data only.
+# Render Blueprint: the Docket API (Docker) with a persistent disk. Fictitious data only.
+# New → Blueprint → this repo. Render asks for the `sync: false` values on the first deploy.
+# The code has no defaults: every TAC_* the API needs is listed here (see README → Variables).
 services:
   - type: web
     name: docket-api
     runtime: docker
     dockerfilePath: ./api/Dockerfile
     dockerContext: .
-    plan: starter
+    region: virginia # closest Render region to Colombia; Vercel functions run in iad1 next to it
+    plan: starter # a persistent disk needs a paid plan
+    branch: main
+    autoDeploy: true
     healthCheckPath: /api/health
     disk:
       name: docket-data
       mountPath: /data
       sizeGB: 1
-    # Every variable is explicit: the code has no defaults (see api/.env.example).
     envVars:
+      # Data: SQLite and the working copy of the Excel live on the disk; material/ is in the image
       - key: TAC_DATA_DIR
         value: /data
       - key: TAC_DATABASE_URL
-        sync: false # Render Postgres connection string
+        value: sqlite:////data/tac.db
       - key: TAC_INBOX_DIR
         value: /srv/material/2-bandeja-de-entrada
       - key: TAC_SUPPLIERS_CSV
@@ -25,6 +30,7 @@ services:
         value: /srv/material/3-datos-del-cliente/dependencias.csv
       - key: TAC_LEDGER_XLSX
         value: /srv/material/3-datos-del-cliente/libro-radicacion-2026.xlsx
+      # Business
       - key: TAC_TODAY
         value: "2026-11-18"
       - key: TAC_COMPANY_NIT
@@ -37,17 +43,23 @@ services:
         value: "70"
       - key: TAC_MIN_CLASSIFICATION_MARGIN
         value: "2"
-      - key: TAC_LLM_ENABLED
-        value: "false"
+      # Background work
       - key: TAC_WORKER_ENABLED
         value: "true"
       - key: TAC_WORKER_POLL_SECONDS
         value: "0.5"
       - key: TAC_LEDGER_SYNC_SECONDS
         value: "30"
-      - key: TAC_CORS_ORIGINS
-        value: '["https://docket-tac.vercel.app"]'
+      # Access codes: you choose them, and give the same ones to Vercel (DOCKET_DEMO_*_CODE)
       - key: TAC_CLERK_TOKEN
-        generateValue: true
+        sync: false
       - key: TAC_COORDINATOR_TOKEN
-        generateValue: true
+        sync: false
+      # Optional AI (off unless all three are set and TAC_LLM_ENABLED=true)
+      - key: TAC_LLM_ENABLED
+        value: "false"
+      - key: TAC_LLM_MODEL
+        value: claude-haiku-5-5
+      - key: TAC_ANTHROPIC_API_KEY
+        sync: false
+# The browser never calls the API: Next.js on Vercel calls it from the server, so no CORS is set.

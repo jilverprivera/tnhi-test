@@ -12,16 +12,19 @@ import { Label } from "@/shared/ui/primitives/label";
 
 import { loginAction, type LoginState } from "../../api/session-actions";
 
-const ROLES: { role: Role; title: string; who: string; demoCode: string }[] = [
-  { role: "CLERK", title: "Radicación", who: "Martha Rojas · radica, corrige y aprueba", demoCode: "martha-demo" },
-  { role: "COORDINATOR", title: "Coordinación", who: "Dra. Claudia Herrera · consulta y vencimientos", demoCode: "herrera-demo" },
+const ROLES: { role: Role; title: string; who: string }[] = [
+  { role: "CLERK", title: "Radicación", who: "Martha Rojas · radica, corrige y aprueba" },
+  { role: "COORDINATOR", title: "Coordinación", who: "Dra. Claudia Herrera · consulta y vencimientos" },
 ];
 
-export function LoginForm() {
+/** Demo access codes to offer as a hint, only when the deployment sets them (DOCKET_DEMO_*_CODE). */
+export type DemoCodes = Partial<Record<Role, string>>;
+
+export function LoginForm({ demoCodes }: { demoCodes: DemoCodes }) {
   const [state, formAction, isPending] = useActionState<LoginState, FormData>(loginAction, {});
   const [role, setRole] = useState<Role>("CLERK");
   const [code, setCode] = useState("");
-  const selected = ROLES.find((r) => r.role === role)!;
+  const demoCode = demoCodes[role];
 
   return (
     <form action={formAction} className="space-y-6">
@@ -61,21 +64,21 @@ export function LoginForm() {
           value={code}
           onChange={(e) => setCode(e.target.value)}
           aria-invalid={state.errorCode ? true : undefined}
-          aria-describedby={state.errorCode ? "login-error" : "login-hint"}
+          aria-describedby={state.errorCode ? "login-error" : demoCode ? "login-hint" : undefined}
           className="h-11"
         />
         {state.errorCode ? (
           <p id="login-error" role="alert" className="text-body-sm text-danger">
             {describeError(state.errorCode)}
           </p>
-        ) : (
+        ) : demoCode ? (
           <p id="login-hint" className="text-caption text-muted-foreground">
             Demostración:{" "}
-            <button type="button" className="font-mono underline underline-offset-2" onClick={() => setCode(selected.demoCode)}>
-              {selected.demoCode}
+            <button type="button" className="font-mono underline underline-offset-2" onClick={() => setCode(demoCode)}>
+              {demoCode}
             </button>
           </p>
-        )}
+        ) : null}
       </div>
 
       <Button type="submit" className="h-11 w-full" disabled={isPending}>
