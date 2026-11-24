@@ -1,0 +1,43 @@
+/* Docket · entregables impresos (A4). Paleta del design system: tide (teal) + sand. */
+@page { size: A4; margin: 16mm 16mm 18mm; }
+:root {
+  --tinta: #1b1611; --tinta-2: #49443e; --suave: #625d56; --borde: #e2dbd3; --fondo: #fff9f3;
+  --primario: #0f6b63; --primario-suave: #d7f5ee; --peligro: #9e3141; --peligro-suave: #fee9ea;
+  --aviso: #7c5503; --aviso-suave: #feedd2; --ok: #276e40; --ok-suave: #def7e4; --info: #02658f; --info-suave: #e0f2fe;
+}
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: var(--tinta); font-size: 9.6pt; line-height: 1.45; margin: 0; }
+header.portada { border-bottom: 2px solid var(--primario); padding-bottom: 8px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
+header.portada .marca { font-size: 8pt; color: var(--suave); text-transform: uppercase; letter-spacing: .12em; }
+h1 { font-size: 18pt; margin: 2px 0 0; letter-spacing: -.02em; line-height: 1.15; }
+h2 { font-size: 12pt; margin: 14px 0 5px; color: var(--primario); letter-spacing: -.01em; break-after: avoid; }
+h3 { font-size: 10pt; margin: 10px 0 3px; break-after: avoid; }
+p { margin: 0 0 6px; }
+ul, ol { margin: 0 0 6px; padding-left: 16px; }
+li { margin-bottom: 2px; }
+.sub { color: var(--suave); font-size: 8.6pt; }
+table { width: 100%; border-collapse: collapse; margin: 4px 0 8px; font-size: 8.4pt; break-inside: auto; }
+th, td { border: 1px solid var(--borde); padding: 3.5px 5px; text-align: left; vertical-align: top; }
+th { background: #f3ece4; font-weight: 600; }
+tr { break-inside: avoid; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+code, .mono { font-family: Menlo, Consolas, monospace; font-size: 8pt; }
+.caja { border: 1px solid var(--borde); border-radius: 8px; padding: 8px 10px; margin: 6px 0 8px; background: #fffdfa; break-inside: avoid; }
+.caja.ok { border-color: #98daa9; background: var(--ok-suave); }
+.caja.aviso { border-color: #efbe70; background: var(--aviso-suave); }
+.caja.peligro { border-color: #feafb3; background: var(--peligro-suave); }
+.caja.info { border-color: #86d2ff; background: var(--info-suave); }
+.dos-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.tres-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.cifra { font-size: 16pt; font-weight: 700; color: var(--primario); line-height: 1.1; }
+.etiqueta { display: inline-block; border-radius: 99px; padding: 0 6px; font-size: 7.6pt; font-weight: 600; }
+.etiqueta.ok { background: var(--ok-suave); color: var(--ok); }
+.etiqueta.aviso { background: var(--aviso-suave); color: var(--aviso); }
+.etiqueta.peligro { background: var(--peligro-suave); color: var(--peligro); }
+.etiqueta.ia { background: #fff4c2; color: #6b5200; border: 1px dashed #b38f00; }
+figure { margin: 6px 0 10px; break-inside: avoid; }
+figcaption { font-size: 8pt; color: var(--suave); margin-top: 3px; }
+.salto { break-before: page; }
+pre.anexo { white-space: pre-wrap; font-family: Menlo, Consolas, monospace; font-size: 7.2pt; line-height: 1.35; background: #faf6f1; border: 1px solid var(--borde); border-radius: 6px; padding: 8px; margin: 4px 0 10px; }
+footer.pie { margin-top: 10px; padding-top: 6px; border-top: 1px solid var(--borde); font-size: 7.6pt; color: var(--suave); }

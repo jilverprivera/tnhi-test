@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Docket · Documento de arquitectura</title>
+<link rel="stylesheet" href="estilos.css">
+<style>body { font-size: 9.1pt; line-height: 1.38; } table { font-size: 8pt; } h2 { margin-top: 11px; } th, td { padding: 3px 5px; }</style>
+</head>
+<body>
+<header class="portada">
+  <div>
+    <div class="marca">Caso práctico · Radicación con IA · Entregable 2</div>
+    <h1>Docket: documento de arquitectura</h1>
+    <div class="sub">Radicación asistida para Terminales Andinas de Carga S.A. · Fecha del caso: 18 de noviembre de 2026</div>
+  </div>
+  <div class="sub" style="text-align:right;white-space:nowrap">Código: <span class="mono">api/ · web/</span><br>Detalle: <span class="mono">docs/es/</span></div>
+</header>
+
+<h2>1. Componentes, flujo de datos y dónde interviene la IA</h2>
+<figure>
+<svg viewBox="0 0 760 330" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="f" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#625d56"/></marker>
+  </defs>
+  <style>
+    .r { fill:#def7e4; stroke:#276e40; stroke-width:1.2 }
+    .h { fill:#e0f2fe; stroke:#02658f; stroke-width:1.2 }
+    .ia { fill:#fff4c2; stroke:#b38f00; stroke-width:1.2; stroke-dasharray:5 3 }
+    .n { fill:#f3ece4; stroke:#97918a; stroke-width:1.2 }
+    .t { font-size:10.5px; font-weight:700; fill:#1b1611 }
+    .s { font-size:8.6px; fill:#49443e }
+    .a { stroke:#625d56; stroke-width:1.3; fill:none; marker-end:url(#f) }
+    .ad { stroke:#b38f00; stroke-width:1.2; fill:none; stroke-dasharray:4 3; marker-end:url(#f) }
+  </style>
+  <!-- fila 1: del correo a la propuesta -->
+  <rect class="n" x="6" y="20" width="118" height="72" rx="8"/>
+  <text class="t" x="16" y="40">Buzón de radicación</text>
+  <text class="s" x="16" y="56">~200 documentos/semana</text>
+  <text class="s" x="16" y="69">.eml con adjuntos o</text>
+  <text class="s" x="16" y="81">todo en el cuerpo</text>
+
+  <rect class="r" x="140" y="20" width="142" height="72" rx="8"/>
+  <text class="t" x="150" y="40">1 · Ingesta</text>
+  <text class="s" x="150" y="56">un documento por adjunto</text>
+  <text class="s" x="150" y="69">PDF, Word, Excel, HTML</text>
+  <text class="s" x="150" y="81">OCR local (Tesseract)</text>
+
+  <rect class="r" x="298" y="20" width="142" height="72" rx="8"/>
+  <text class="t" x="308" y="40">2 · Clasificación</text>
+  <text class="s" x="308" y="56">reglas con puntaje</text>
+  <text class="s" x="308" y="69">+ extracción de campos</text>
+  <text class="s" x="308" y="81">NIT, OC, cuenta, plazos</text>
+
+  <rect class="r" x="456" y="20" width="150" height="72" rx="8"/>
+  <text class="t" x="466" y="40">3 · Reglas de Martha</text>
+  <text class="s" x="466" y="56">maestro, OC, duplicados</text>
+  <text class="s" x="466" y="69">fraude (cuenta / remitente)</text>
+  <text class="s" x="466" y="81">viáticos, días hábiles CO</text>
+
+  <rect class="r" x="622" y="20" width="132" height="72" rx="8"/>
+  <text class="t" x="632" y="40">4 · Propuesta</text>
+  <text class="s" x="632" y="56">tipo, dependencia, acción,</text>
+  <text class="s" x="632" y="69">vencimiento + motivos</text>
+  <text class="s" x="632" y="81">Listo / Requiere revisión</text>
+
+  <path class="a" d="M124,56 H138"/><path class="a" d="M282,56 H296"/><path class="a" d="M440,56 H454"/><path class="a" d="M606,56 H620"/>
+
+  <!-- IA opcional -->
+  <rect class="ia" x="298" y="108" width="142" height="40" rx="8"/>
+  <text class="t" x="308" y="124">IA opcional (apagada)</text>
+  <text class="s" x="308" y="139">solo texto ambiguo, enmascarado</text>
+  <path class="ad" d="M369,108 V94"/>
+
+  <!-- fila 2: decisión humana y registro -->
+  <rect class="h" x="600" y="160" width="154" height="72" rx="8"/>
+  <text class="t" x="610" y="180">Bandeja · Martha</text>
+  <text class="s" x="610" y="196">ve el porqué y la evidencia</text>
+  <text class="s" x="610" y="209">corrige o aprueba; al aprobar</text>
+  <text class="s" x="610" y="221">se asigna el radicado</text>
+  <path class="a" d="M688,92 V158"/>
+
+  <rect class="n" x="372" y="160" width="200" height="72" rx="8"/>
+  <text class="t" x="382" y="180">Libro de radicación</text>
+  <text class="s" x="382" y="196">mismo Excel: TAC-2026-ER-#####</text>
+  <text class="s" x="382" y="209">bandeja de salida (reenvíos)</text>
+  <text class="s" x="382" y="221">auditoría que no se borra</text>
+  <path class="a" d="M600,196 H574"/>
+
+  <rect class="h" x="600" y="254" width="154" height="66" rx="8"/>
+  <text class="t" x="610" y="274">Por verificar · Dra. Herrera</text>
+  <text class="s" x="610" y="290">facturas retenidas: llama al</text>
+  <text class="s" x="610" y="303">proveedor y libera o rechaza</text>
+  <path class="a" d="M677,232 V252"/>
+  <path class="a" d="M600,287 H520 V234"/>
+
+  <rect class="n" x="372" y="254" width="130" height="66" rx="8"/>
+  <text class="t" x="382" y="274">Vencimientos</text>
+  <text class="s" x="382" y="290">reporte semanal: petición,</text>
+  <text class="s" x="382" y="303">oficios, quejas</text>
+  <path class="a" d="M430,232 V252"/>
+
+  <rect class="ia" x="140" y="254" width="200" height="66" rx="8"/>
+  <text class="t" x="150" y="274">Servidor MCP (solo lectura)</text>
+  <text class="s" x="150" y="290">«¿qué vence esta semana?»</text>
+  <text class="s" x="150" y="303">asistente de la Dra. Herrera</text>
+  <path class="a" d="M372,196 H250 V252"/>
+
+  <!-- leyenda -->
+  <rect class="r" x="6" y="170" width="14" height="10" rx="2"/><text class="s" x="26" y="179">reglas deterministas (sin IA)</text>
+  <rect class="ia" x="6" y="188" width="14" height="10" rx="2"/><text class="s" x="26" y="197">IA opcional / asistente externo</text>
+  <rect class="h" x="6" y="206" width="14" height="10" rx="2"/><text class="s" x="26" y="215">decisión de una persona</text>
+</svg>
+<figcaption>Flujo de un documento. Nada se radica ni se reenvía sin la aprobación de Martha; lo retenido por posible fraude lo resuelve la Dra. Herrera.</figcaption>
+</figure>
+
+<p><b>Componentes.</b> El <b>backend</b> (Python, FastAPI) está organizado por funcionalidad: ingesta, clasificación, radicación, libro, vencimientos, catálogos y auditoría. Cada una tiene su lógica de negocio pura y adaptadores intercambiables para correo, OCR, base de datos, Excel e IA. La <b>web</b> (Next.js) es una aplicación instalable que funciona en celular y en escritorio, con una vista para Martha (bandeja de trabajo) y otra para la Dra. Herrera (vencimientos y facturas por verificar). El <b>servidor MCP</b> expone el libro, solo para lectura, a un asistente de IA.</p>
+
+<p><b>Dónde NO interviene la IA, y por qué.</b> La IA no decide la dependencia, el vencimiento, el consecutivo, los duplicados, la verificación antifraude ni la aprobación. Todo eso son reglas escritas a partir de la entrevista:</p>
+<ul>
+<li>se pueden explicar a Martha, y el libro que consultan Contabilidad y Jurídica las puede auditar;</li>
+<li>son las decisiones donde un error cuesta dinero o una tutela;</li>
+<li>cuestan casi cero;</li>
+<li>funcionan sin aprobación de Sistemas.</li>
+</ul>
+<p>El OCR también es local: no es un modelo externo.</p>
+
+<p><b>Dónde SÍ interviene, y por qué.</b> La IA es <span class="etiqueta ia">opcional y está apagada</span>. Solo se consulta cuando las reglas dudan sobre qué tipo de documento es un texto libre, por ejemplo una petición que no dice "derecho de petición". Recibe el texto con los datos personales enmascarados, y su sugerencia siempre deja el documento en revisión: nunca actúa sola. El otro punto de IA es el asistente de la doctora, que consulta el libro vía MCP sin poder modificarlo.</p>
+
+<h2>2. Cómo sé que acierta y qué pasa cuando se equivoca</h2>
+<div class="dos-col">
+<div class="caja ok"><b>Medición.</b> Una evaluación automática (<span class="mono">uv run python -m app.evaluate</span>) compara cada documento campo por campo: tipo, dependencia, acción y vencimiento. Usa como referencia el archivo del cliente <b>(8/8)</b> y la tabla completa de los 16 correos <b>(17/17 documentos)</b>, incluido el escaneado leído con OCR (confianza 85,6 %). Un <b>conjunto ciego</b> de 65 documentos, escrito por un agente que nunca vio el código, da <b>45 correctos, 14 enviados a una persona y 6 errores</b>; ninguno de esos errores deja pasar un fraude ni un duplicado. Además hay 127 pruebas del backend y 5 flujos completos en navegador. El detalle está en el entregable 4.</div>
+<div class="caja aviso"><b>Cuando se equivoca.</b>
+<ul>
+<li>Nada sale sin aprobación de Martha.</li>
+<li>Cada propuesta muestra su porqué y la evidencia.</li>
+<li>Si el OCR o la clasificación dudan, el documento va a revisión en vez de adivinarse.</li>
+<li>Una corrección conserva la propuesta original, y la tasa de correcciones por tipo es la medida real de acierto en operación; cada error repetido se vuelve una regla y una prueba nueva.</li>
+<li>El sesgo es deliberado hacia la revisión en temas de dinero y legales, y un radicado nunca se reutiliza.</li>
+</ul></div>
+</div>
+
+<h2>3. Cuánto cuesta</h2>
+<p>Volumen: 200 documentos por semana, unos 870 al mes. Sin IA, el costo marginal es la CPU del propio servidor: <b>14 ms</b> por documento nativo y <b>~1 s</b> por escaneado con OCR. Toda la bandeja de muestra se procesa en 1,4 s. Si se activa la IA, cada consulta usa unos 500 tokens de entrada y 5 de salida.</p>
+<table>
+<tr><th>Escenario (870 documentos/mes)</th><th class="num">Por documento</th><th class="num">Al mes</th></tr>
+<tr><td>Solo reglas y OCR local (configuración actual)</td><td class="num">≈ US$0</td><td class="num">≈ US$0</td></tr>
+<tr><td>IA solo en textos ambiguos (~20 %) · Claude Haiku 5.5</td><td class="num">US$0,0000525 por consulta</td><td class="num">≈ US$0,01</td></tr>
+<tr><td>IA en todos los documentos · Claude Haiku 5.5</td><td class="num">US$0,0000525</td><td class="num">≈ US$0,05</td></tr>
+<tr><td>IA en todos los documentos · Claude Sonnet 5.5</td><td class="num">US$0,00105</td><td class="num">≈ US$0,91</td></tr>
+</table>
+<p class="sub">Precios de lista de Anthropic: Haiku 5.5 a US$0,10 / 0,50 y Sonnet 5.5 a US$2 / 10 por millón de tokens de entrada y salida, según la tabla consultada el 2026-10-06. Hay que verificarlos antes de cotizar. La infraestructura en sitio usa un servidor que TAC ya tiene; dentro de la nube del cliente sería un contenedor pequeño de unos pocos dólares al mes, cuyo valor también hay que confirmar en la tarifa del proveedor.</p>
+
+<h2>4. Cuánto tiempo le ahorra a Martha</h2>
+<p><b>Línea base</b>, según la entrevista: 3 horas al día para unos 40 documentos (200 ÷ 5), es decir <b>4,5 min por documento</b>. Lo contrasté con los tiempos por tipo que dio Martha, con la mezcla de la bandeja de muestra (53 % facturas, 18 % peticiones y oficios, el resto viáticos, quejas, cotizaciones y publicidad):</p>
+<ul>
+<li>factura: 4 min;</li>
+<li>petición: 8 min, incluido el cálculo del vencimiento;</li>
+<li>lo demás: 2 min.</li>
+</ul>
+<p>La mezcla da 4,2 min, consistente con la línea base.</p>
+<p><b>Con Docket:</b> confirmar un documento "Listo" toma ≈ 0,5 min, y uno que "Requiere revisión" ≈ 2 min. El ahorro se calcula como documentos × (minutos antes − minutos después).</p>
+<table>
+<tr><th>Documentos que requieren revisión</th><th class="num">Min/doc con Docket</th><th class="num">Tiempo diario</th><th class="num">Ahorro diario</th><th class="num">Ahorro mensual</th></tr>
+<tr><td>10 % (optimista)</td><td class="num">0,65</td><td class="num">26 min</td><td class="num">2,6 h</td><td class="num">≈ 55 h</td></tr>
+<tr><td><b>20 % (supuesto de trabajo)</b></td><td class="num">0,80</td><td class="num">32 min</td><td class="num"><b>2,5 h</b></td><td class="num"><b>≈ 53 h</b></td></tr>
+<tr><td>40 % (conservador)</td><td class="num">1,10</td><td class="num">44 min</td><td class="num">2,3 h</td><td class="num">≈ 49 h</td></tr>
+</table>
+<p class="sub">En la bandeja de muestra solo 1 de 17 documentos requirió revisión (6 %): el intento de fraude. Cómo validar estas cifras:</p>
+<ul class="sub">
+<li>una sesión cronometrada con Martha sobre los 16 correos;</li>
+<li>en operación, los tiempos de la auditoría (de "propuesto" a "aprobado") y la tasa de correcciones.</li>
+</ul>
+<p class="sub">El mayor valor no está en las horas, sino en lo que evita: un pago doble, una consignación a la cuenta del defraudador, una petición vencida que termina en tutela.</p>
+
+<h2>5. Deuda técnica asumida por velocidad</h2>
+<div class="caja ok"><b>Ya resuelto, con pruebas:</b> paginación; monitoreo (métricas Prometheus sin datos personales, logs JSON con identificador de solicitud, verificación de disponibilidad); cola persistente para picos de fin de mes; retención documental según la Ley 594 (Tabla de Retención y eliminación con acta, que borra el contenido y conserva el índice); habeas data según la Ley 1581 (inventario, solicitudes de titulares con plazo legal, auditoría enmascarada); <b>sincronización bidireccional del Excel</b> (fusión a tres vías que respeta el archivo abierto); y un conjunto de evaluación ciego de 65 documentos.</div>
+<p><b>Lo que sigue pendiente:</b></p>
+<ul>
+<li><b>Integraciones simuladas.</b> El correo se lee desde una carpeta o por carga de .eml, los reenvíos no se envían de verdad y el maestro se recarga desde un CSV, no directamente del ERP.</li>
+<li><b>Identidad.</b> Usa códigos de acceso de demostración y el actor de la auditoría es el rol, no la persona. Hace falta SSO corporativo.</li>
+<li><b>Datos.</b> Corre en SQLite con un candado en el proceso para el consecutivo. Con varias instancias hace falta Postgres con secuencia o bloqueo de fila, copias de seguridad y cifrado.</li>
+<li><b>El Excel se sincroniza sobre una copia de trabajo:</b> falta el adaptador de SharePoint o Drive.</li>
+<li><b>Evaluación y retención.</b> El conjunto ciego es sintético: falta correo real etiquetado por Martha. Los valores de la Tabla de Retención son una propuesta que debe aprobar el comité de archivo.</li>
+<li><b>Despliegue.</b> Las configuraciones de Docker, Render y Vercel están escritas pero no desplegadas. El servidor MCP no tiene autenticación propia: escucha solo en la máquina local.</li>
+</ul>
+
+<h2>6. El entorno real: solo la suite de la empresa y nada de datos personales hacia fuera sin contrato</h2>
+<p>Gracias a la arquitectura hexagonal, <b>las reglas de Martha, las pruebas y la evaluación no cambian</b>: solo se reemplazan los adaptadores. Así quedaría:</p>
+<table>
+<tr><th style="width:18%">Pieza</th><th style="width:22%">Hoy (prototipo)</th><th>Microsoft 365</th><th>Google Workspace</th></tr>
+<tr><td>Entrada de correo</td><td>Carpeta / carga de .eml</td><td>Buzón compartido vía Microsoft Graph (suscripción a mensajes nuevos)</td><td>Gmail API con notificaciones push (Pub/Sub)</td></tr>
+<tr><td>Libro</td><td>Copia de trabajo del Excel</td><td>El mismo Excel en SharePoint/OneDrive vía Graph (API de libros, sesión con bloqueo)</td><td>Hoja en Drive vía Sheets API, o el .xlsx en Drive</td></tr>
+<tr><td>Reenvíos</td><td>Bandeja de salida simulada</td><td>Envío real desde el buzón de radicación (Graph <span class="mono">sendMail</span>)</td><td>Envío real con Gmail API</td></tr>
+<tr><td>Identidad y roles</td><td>Códigos de demostración</td><td>Entra ID (SSO) con grupos Radicación / Coordinación</td><td>Cuentas de Google Workspace y grupos</td></tr>
+<tr><td>Dónde corre</td><td>Servidor propio / Docker</td><td>Contenedor en la suscripción Azure del tenant. Si solo se permite la suite: Power Automate dispara el proceso y la web va como pestaña de Teams.</td><td>Cloud Run en la organización de Google Cloud de TAC. Si solo se permite la suite: Apps Script dispara el proceso.</td></tr>
+<tr><td>OCR</td><td>Tesseract local</td><td>Igual (dentro del contenedor), o Azure AI Document Intelligence dentro del contrato</td><td>Igual, o Document AI dentro del contrato</td></tr>
+<tr><td>IA opcional</td><td>API de Anthropic, apagada</td><td>Claude vía Microsoft Foundry: se factura por Microsoft Marketplace bajo el contrato del tenant</td><td>Claude en Vertex AI bajo el contrato de Google Cloud</td></tr>
+<tr><td>Asistente de la doctora</td><td>MCP local</td><td>El mismo MCP detrás de Entra ID, conectado al asistente que Sistemas apruebe (p. ej. un agente de Copilot Studio)</td><td>El mismo MCP con identidad de Google, conectado al asistente aprobado</td></tr>
+</table>
+<div class="caja info"><b>Regla que no se negocia:</b> ningún documento con datos personales sale del tenant sin contrato.
+<ul>
+<li>Lo determinista (reglas y OCR) corre dentro del perímetro de TAC.</li>
+<li>La IA, si se aprueba, va por el canal de modelos del mismo proveedor de la suite, con acuerdo de tratamiento de datos, región definida y enmascaramiento previo. Mientras tanto queda apagada, y la solución funciona igual.</li>
+<li>Los registros quedan sujetos a las políticas de retención y auditoría del tenant, por ejemplo Purview o Vault.</li>
+</ul>
+</div>
+</body>
+</html>
