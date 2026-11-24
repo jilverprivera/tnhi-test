@@ -133,3 +133,4 @@ Playwright projects (`web/playwright.config.ts`): `desktop` (`filing-flow.spec.t
 - 2026-11-24: first version of the documentation.
 - 2026-11-24: role-based navigation (`ROLE_NAV`, `ROLE_HOME`, `SessionNav`); login redirects to the home of the role the API returns; `LogoutButton` clears the offline cache `docket-read-views`; `app/(app)/error.tsx` with "Reintentar" / "Ingresar de nuevo"; pointer cursor and 44 px buttons on touch. Removed the fixed limitations (landing by picked card, generic error page, 36 px header buttons).
 - 2026-11-24: the coordinator's menu has a fifth item, "Cumplimiento" (`/compliance`, icon `Landmark`; `ROLE_NAV.COORDINATOR` = deadlines, verifications, ledger, inbox, compliance).
+- 2026-11-24: the login hint shows demo access codes only when `DOCKET_DEMO_CLERK_CODE` / `DOCKET_DEMO_COORDINATOR_CODE` are set (read at request time); no codes live in the code.

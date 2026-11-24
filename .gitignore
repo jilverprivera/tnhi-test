@@ -2,3 +2,7 @@
 node_modules/
 # Environment files and their templates are never committed
 .env*
+
+# Kept locally, not published
+docs/
+entregables/
