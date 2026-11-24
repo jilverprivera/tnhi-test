@@ -1,0 +1,64 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "../shared/theme/tokens.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-size: var(--text-body-md);
+    line-height: var(--text-body-md--line-height);
+  }
+  h1, h2, h3 {
+    @apply font-display;
+    text-wrap: balance;
+  }
+  /* Touch: feedback on press, never only on release (apple-design §1) */
+  button, [role="button"], a {
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* Tailwind v4 preflight resets buttons to cursor: default; every interactive control points */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [role="tab"],
+  [role="option"],
+  [role="menuitem"],
+  [role="checkbox"],
+  select:not(:disabled),
+  summary,
+  label[for],
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled),
+  input[type="file"]:not(:disabled) {
+    cursor: pointer;
+  }
+  button:disabled,
+  [aria-disabled="true"],
+  select:disabled {
+    cursor: not-allowed;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
