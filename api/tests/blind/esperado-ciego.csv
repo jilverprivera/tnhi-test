@@ -1,0 +1,66 @@
+correo,documento,tipo,dependencia,accion,vence,radicado,observacion
+b01.eml,FE-3402.pdf,INVOICE,ACCOUNTS_PAYABLE,FILE,,,"Proveedor en el maestro (NIT 901.234.567-1), trae OC-2026-0431, cuenta y dominio coinciden"
+b02.eml,EMAIL_BODY,PETITION,LEGAL,FILE,2026-11-25,,Derecho de petición de información general: 15 días hábiles desde el 4 nov
+b03.eml,EMAIL_BODY,COMPLAINT,CUSTOMER_SERVICE,FILE,2026-11-25,,Queja de cooperativa de transportadores (usuarios del terminal): 15 días hábiles desde el 4 nov
+b04.eml,FV-10571.pdf,INVOICE,PROCUREMENT,FILE,,,Proveedor registrado pero la factura no trae orden de compra: Compras debe avalar
+b05.eml,Escaneo_SE77790.pdf,INVOICE,SENDER,REPLY_WITH_EXISTING_NUMBER,,,"Factura SE-77790 de Transportes Sabana ya radicada (TAC-2026-ER-04791): no se radica de nuevo, se responde con el radicado existente"
+b06.eml,TH-F-012 Camilo Restrepo.pdf,TRAVEL_EXPENSE_REQUEST,HUMAN_RESOURCES,FILE,,,Formato TH-F-012 con firma del jefe; llega el 4 nov para viaje el 23 nov (más de 5 días hábiles)
+b07.eml,Oficio AF-2026-118.pdf,OVERSIGHT_NOTICE,LEGAL,FILE,2026-11-19,,"URGENTE - Contraloría: plazo del oficio diez (10) días hábiles, contados desde el 5 nov"
+b08.eml,COT-2026-0893.pdf,QUOTATION,PROCUREMENT,FILE,,,Cotización: va a Compras
+b09.eml,AIB-2026-1102.pdf,INVOICE,SENDER,REPLY_WITH_EXISTING_NUMBER,,,Duplicado: AIB-2026-1102 de Aseo Integral ya está en el libro (TAC-2026-ER-04795); responder con ese radicado
+b10.eml,Solicitud anticipo Oscar Bermudez.pdf,TRAVEL_EXPENSE_REQUEST,SENDER,RETURN_TO_SENDER,,,"Aunque está firmada por la jefa, no viene en el formato TH-F-012: devolver para que use el formato"
+b11.eml,IMG_20261104_carta.pdf,COMPLAINT,CUSTOMER_SERVICE,FILE,2026-11-27,,Queja manuscrita/escaneada de conductor usuario del terminal: 15 días hábiles desde el 6 nov
+b12.eml,FE-1207.pdf,INVOICE,ACCOUNTS_PAYABLE,FILE,,,FE-1207 existe en el libro pero de Papelería Colombia (otro NIT): no es duplicado. Proveedor registrado con OC-2026-0455
+b13.eml,EMAIL_BODY,PETITION,LEGAL,FILE,2026-11-20,,Petición que solo pide copias de documentos: 10 días hábiles desde el 6 nov
+b14.eml,PM-0457.pdf,OVERSIGHT_NOTICE,LEGAL,FILE,2026-11-13,,URGENTE - Personería: el oficio da ocho (8) días CALENDARIO desde el recibo (5 nov) → 13 nov
+b15.eml,carta asociacion.pdf,PETITION,LEGAL,FILE,2026-11-23,,Petición (escaneada) que solo pide copias de actas y listados: 10 días hábiles desde el 9 nov
+b16.eml,SE-77860.pdf,INVOICE,ADMIN_COORDINATION,HOLD_FOR_VERIFICATION,,,"Llega desde gmail.example, no desde sabanaexpress.example del maestro (dirección rara), aunque la cuenta coincida: verificar"
+b17.eml,LS-20931.pdf,INVOICE,ACCOUNTS_PAYABLE,FILE,,,"Proveedor registrado, con OC-2026-0440"
+b17.eml,LS-20932.pdf,INVOICE,PROCUREMENT,FILE,,,Proveedor registrado sin orden de compra (pedido telefónico): a Compras
+b18.eml,Propuesta economica Bioplagas TAC.docx,QUOTATION,PROCUREMENT,FILE,,,Propuesta económica = cotización: a Compras (proveedor no registrado no cambia la ruta)
+b19.eml,EMAIL_BODY,ADVERTISING,NONE,DO_NOT_FILE,,,"Correo promocional de un proveedor registrado: publicidad, no se radica"
+b20.eml,CamScanner 07-11-2026 10.18.pdf,INVOICE,ACCOUNTS_PAYABLE,FILE,,,Cuenta de cobro GL-0311 de proveedor registrado; la OC-2026-0402 viene en el correo; cuenta coincide con el maestro
+b21.eml,EMAIL_BODY,COMPLAINT,CUSTOMER_SERVICE,FILE,2026-11-30,,"Queja de empresa transportadora (en mayúsculas, sin tildes); recibido domingo 8 nov: 15 días hábiles desde el 9 nov"
+b22.eml,EMAIL_BODY,COMPLAINT,CUSTOMER_SERVICE,FILE,2026-12-01,,Queja de un conductor usuario del terminal; aunque pide información sigue siendo queja de usuario (no petición): 15 días hábiles desde el 10 nov
+b23.eml,EMAIL_BODY,TRAVEL_EXPENSE_REQUEST,SENDER,RETURN_TO_SENDER,,,"Solicitud en el cuerpo del correo, sin formato TH-F-012 ni aprobación del jefe: devolver"
+b24.eml,EMAIL_BODY,PETITION,LEGAL,FILE,2026-12-23,,Consulta en la que se pide un concepto: 30 días hábiles desde el 10 nov (8 dic y 25 dic festivos)
+b25.eml,VTA-0988.pdf,INVOICE,PROCUREMENT,FILE,,,Proveedor en el maestro pero en estado INACTIVO: no se puede mandar a pago; Compras debe revisar/reactivar (criterio documentado en README)
+b26.eml,EMAIL_BODY,QUOTATION,PROCUREMENT,FILE,,,Oferta de precios en el cuerpo del correo de un proveedor no registrado: cotización a Compras
+b27.eml,MP-5507.pdf,INVOICE,ADMIN_COORDINATION,HOLD_FOR_VERIFICATION,,,La cuenta de la factura (Banco Pichincha 410-2233-8877) no es la del maestro (Davivienda 0550-7788-9911): retener para verificación telefónica con la Dra. Claudia
+b28.eml,EMAIL_BODY,ADVERTISING,NONE,DO_NOT_FILE,,,"Publicidad masiva, no se radica"
+b29.eml,FE-3415.pdf,INVOICE,ADMIN_COORDINATION,HOLD_FOR_VERIFICATION,,,"Correo enviado desde suministros-llano.example (dominio parecido) y no desde suministrosllano.example del maestro: posible suplantación, verificar con el proveedor"
+b30.eml,TH-F-012 Natalia Gomez.pdf,TRAVEL_EXPENSE_REQUEST,SENDER,RETURN_TO_SENDER,,,El TH-F-012 no tiene firma/aprobación del jefe; la aprobación por correo no sustituye la firma en el formato (criterio README): devolver
+b31.eml,PPF-3321-2026.pdf,OVERSIGHT_NOTICE,LEGAL,FILE,2026-11-18,,URGENTE - Procuraduría (oficio escaneado): cinco (5) días hábiles desde el 11 nov
+b32.eml,EMAIL_BODY,PETITION,LEGAL,FILE,2026-12-02,,Pide copias y además información: 15 días hábiles (regla de la abogada) desde el 11 nov
+b33.eml,EMAIL_BODY,ADVERTISING,NONE,DO_NOT_FILE,,,Publicidad de software (menciona 'factura' pero no es una factura): no se radica
+b34.eml,Reclamo contenedor MSKU4488120.docx,COMPLAINT,CUSTOMER_SERVICE,FILE,2026-12-03,,Reclamo de un cliente del terminal: 15 días hábiles desde el 12 nov
+b35.eml,EMAIL_BODY,PETITION,LEGAL,FILE,2026-12-03,,"Solicitud de información (""les pido que me informen""), no es queja: petición, 15 días hábiles desde el 12 nov"
+b36.eml,FV-10498 recibido.pdf,INVOICE,SENDER,REPLY_WITH_EXISTING_NUMBER,,,FV-10498 de Ferretería La 13 ya radicada (TAC-2026-ER-04794): responder con ese radicado
+b36.eml,FV-10580.pdf,INVOICE,PROCUREMENT,FILE,,,"Proveedor registrado, sin OC. Remitente cartera@ferrela13.example: mismo dominio del maestro"
+b37.eml,TH-F-012 Andres Cuervo.pdf,TRAVEL_EXPENSE_REQUEST,HUMAN_RESOURCES,FILE,,,TH-F-012 firmado por el jefe; con anticipación suficiente (viaje 30 nov)
+b37.eml,TH-F-012 Monica Pinzon.pdf,TRAVEL_EXPENSE_REQUEST,SENDER,RETURN_TO_SENDER,,,TH-F-012 sin firma del jefe: devolver al remitente
+b38.eml,SE-77845.pdf,INVOICE,ADMIN_COORDINATION,HOLD_FOR_VERIFICATION,,,"Dominio sabanaexpres.example (falta una 's') y cuenta distinta a la del maestro: intento de fraude probable, a la Dra. Claudia"
+b39.eml,MP-5531.pdf,INVOICE,ACCOUNTS_PAYABLE,FILE,,,Factura de proveedor registrado con OC-2026-0420
+b39.eml,COT-MP-112.pdf,QUOTATION,PROCUREMENT,FILE,,,Cotización adjunta en el mismo correo: a Compras
+b40.eml,EMAIL_BODY,PETITION,LEGAL,FILE,2026-12-04,,URGENTE: el peticionario anuncia acción de tutela. Petición general: 15 días hábiles desde el 13 nov
+b41.eml,Cuenta de cobro 014.docx,INVOICE,PROCUREMENT,FILE,,,Cuenta de cobro de persona natural (C.C. 80.123.456) que no está en el maestro: Compras debe vincularlo
+b42.eml,TH-F-012 Paola Nino.docx,TRAVEL_EXPENSE_REQUEST,HUMAN_RESOURCES,FILE,,,Formato completo y aprobado pero EXTEMPORÁNEA: llega el 12 nov para viaje el 17 nov (menos de 5 días hábiles; 16 nov festivo)
+b43.eml,AIB-2026-1150.pdf,INVOICE,ACCOUNTS_PAYABLE,FILE,,,Proveedor registrado con OC-2026-0466
+b43.eml,AIB-2026-1151.pdf,INVOICE,PROCUREMENT,FILE,,,"Proveedor registrado, servicio pedido sin orden de compra"
+b44.eml,EMAIL_BODY,PETITION,LEGAL,FILE,2026-12-07,,"Aunque es una queja, la vecina no es usuaria del terminal (no es transportadora ni cliente): se trata como petición, 15 días hábiles desde el 17 nov (16 festivo)"
+b45.eml,GI-2210.pdf,INVOICE,PROCUREMENT,FILE,,,NIT 901.777.888-2 no está en el maestro: va a Compras para vinculación aunque traiga OC
+b46.eml,EMAIL_BODY,COMPLAINT,CUSTOMER_SERVICE,FILE,2026-12-07,,Queja de transportadora usuaria del terminal (cuerpo HTML): 15 días hábiles desde el 17 nov
+b47.eml,Oficio 1877.pdf,OVERSIGHT_NOTICE,LEGAL,FILE,2026-11-19,,URGENTE - Juzgado: tres (3) días hábiles desde el 17 nov (16 nov festivo)
+b48.eml,TH-F-012 Sergio Lozano.pdf,TRAVEL_EXPENSE_REQUEST,SENDER,RETURN_TO_SENDER,,,Formato sin firma del jefe: se devuelve (además sería extemporánea)
+b49.eml,EMAIL_BODY,ADVERTISING,NONE,DO_NOT_FILE,,,Publicidad de un curso (menciona 'derecho de petición' y 'tutela' pero no lo es): no se radica
+b50.eml,scan0001.pdf,TRAVEL_EXPENSE_REQUEST,HUMAN_RESOURCES,FILE,,,TH-F-012 escaneado con firma del jefe; recibido el sábado 14 nov para viaje el 1 dic: a tiempo
+b51.eml,LS-20950.pdf,INVOICE,ACCOUNTS_PAYABLE,FILE,,,Proveedor registrado con OC-2026-0449
+b52.eml,CC-0087.pdf,INVOICE,PROCUREMENT,FILE,,,Proveedor no registrado (NIT 1.020.345.678-9 no está en el maestro): a Compras
+b53.eml,EMAIL_BODY,PETITION,LEGAL,FILE,2026-12-07,,"Petición implícita (""les pido que me informen"") de ex trabajador, no es usuario del terminal: 15 días hábiles; recibido domingo 15 nov, se cuenta desde el 17 nov"
+b54.eml,EMAIL_BODY,ADVERTISING,NONE,DO_NOT_FILE,,,"Invitación comercial a feria: publicidad, no se radica"
+b55.eml,MP-5520.pdf,INVOICE,ACCOUNTS_PAYABLE,FILE,,,"Proveedor registrado, OC-2026-0420, cuenta Davivienda coincide (recibido en festivo, no afecta la ruta)"
+b56.eml,FE-1239.pdf,INVOICE,ACCOUNTS_PAYABLE,FILE,,,NIT 860555444-3 (sin puntos) = 860.555.444-3 del maestro; trae OC-2026-0461
+b57.eml,EMAIL_BODY,COMPLAINT,CUSTOMER_SERVICE,FILE,2026-12-09,,Reclamo de transportadora (cliente del terminal) reenviado por el jefe de patio el mismo día: 15 días hábiles desde el 18 nov
+b58.eml,Auto admisorio 2026-00318.pdf,OVERSIGHT_NOTICE,LEGAL,FILE,2026-11-19,,"URGENTE - Juzgado, tutela: dos (2) días (términos judiciales en días hábiles) desde el 18 nov"
+b59.eml,Derecho de peticion - Rosa Elvira Gomez.docx,PETITION,LEGAL,FILE,2026-12-09,,Derecho de petición reenviado internamente (llegó el mismo 17 nov): 15 días hábiles desde el 18 nov
+b60.eml,FE-1244.pdf,INVOICE,ADMIN_COORDINATION,HOLD_FOR_VERIFICATION,,,El correo pide pagar a una cuenta (Bancolombia 112-908877-01) distinta a la del maestro (Occidente 987-65432-1): retener para verificación
