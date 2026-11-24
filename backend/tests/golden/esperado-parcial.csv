@@ -1,0 +1,9 @@
+correo,documento,tipo,dependencia,accion,vence,observacion
+01.eml,FE-3381.pdf,Factura,CUENTAS_POR_PAGAR,Radicar,,"Proveedor registrado, NIT y cuenta coinciden, trae OC"
+02.eml,FV-10552.pdf,Factura,COMPRAS,Radicar,,Proveedor registrado pero sin orden de compra
+04.eml,Factura MS-0045.pdf,Factura,COMPRAS,Radicar,,Proveedor no registrado en el maestro: Compras debe vincularlo. Sin OC
+07.eml,Solicitud viaticos Jorge Molina.pdf,Solicitud de viáticos,TALENTO_HUMANO,Radicar,,"Completa, aprobada y con anticipación suficiente"
+08.eml,(cuerpo del correo),Solicitud de viáticos,DEVOLVER_AL_REMITENTE,Devolver,,Sin aprobación del jefe inmediato y fuera del formato TH-F-012
+10.eml,Derecho de peticion JAC El Recodo.pdf,Derecho de petición,JURIDICA,Radicar,2026-12-02,15 días hábiles desde el 11 nov; el 16 nov es festivo
+13.eml,COT-2026-0877.pdf,Cotización,COMPRAS,Radicar,,
+15.eml,(cuerpo del correo),Publicidad,NO_RADICAR,No radicar,,Boletín comercial

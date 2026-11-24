@@ -1,0 +1,18 @@
+correo,documento,tipo,dependencia,accion,vence,radicado,observacion
+01.eml,FE-3381.pdf,INVOICE,ACCOUNTS_PAYABLE,FILE,,TAC-2026-ER-04818,"Proveedor registrado, cuenta coincide, trae OC"
+10.eml,Derecho de peticion JAC El Recodo.pdf,PETITION,LEGAL,FILE,2026-12-02,TAC-2026-ER-04819,15 días hábiles; 16-nov festivo
+02.eml,FV-10552.pdf,INVOICE,PROCUREMENT,FILE,,TAC-2026-ER-04820,Sin orden de compra
+03.eml,SCAN_20261112_0931.pdf,INVOICE,ACCOUNTS_PAYABLE,FILE,,TAC-2026-ER-04821,Escaneada (OCR); OC-2026-0398; cuenta coincide
+12.eml,EMAIL_BODY,PETITION,LEGAL,FILE,2026-11-27,TAC-2026-ER-04822,Solo pide copias: 10 días hábiles
+13.eml,COT-2026-0877.pdf,QUOTATION,PROCUREMENT,FILE,,TAC-2026-ER-04823,
+11.eml,Oficio CD-2026-3345.pdf,OVERSIGHT_NOTICE,LEGAL,FILE,2026-11-23,TAC-2026-ER-04824,Urgente; plazo del oficio: 5 días hábiles
+04.eml,Factura MS-0045.pdf,INVOICE,PROCUREMENT,FILE,,TAC-2026-ER-04825,Proveedor no registrado; sin OC
+15.eml,EMAIL_BODY,ADVERTISING,NONE,DO_NOT_FILE,,,Publicidad
+05.eml,AIB-2026-1189.pdf,INVOICE,ADMIN_COORDINATION,HOLD_FOR_VERIFICATION,,TAC-2026-ER-04826,Dominio y cuenta distintos al maestro: posible fraude
+16.eml,LS-5501.pdf,INVOICE,ACCOUNTS_PAYABLE,FILE,,TAC-2026-ER-04827,Dos facturas en un correo
+16.eml,LS-5502.pdf,INVOICE,ACCOUNTS_PAYABLE,FILE,,TAC-2026-ER-04828,Dos facturas en un correo
+06.eml,FE-1207.pdf,INVOICE,SENDER,REPLY_WITH_EXISTING_NUMBER,,,Ya radicada como TAC-2026-ER-04790
+07.eml,Solicitud viaticos Jorge Molina.pdf,TRAVEL_EXPENSE_REQUEST,HUMAN_RESOURCES,FILE,,TAC-2026-ER-04829,Completa y a tiempo
+08.eml,EMAIL_BODY,TRAVEL_EXPENSE_REQUEST,SENDER,RETURN_TO_SENDER,,,Sin formato TH-F-012 ni aprobación
+09.eml,TH-F-012 Diana Ortiz.pdf,TRAVEL_EXPENSE_REQUEST,HUMAN_RESOURCES,FILE,,TAC-2026-ER-04830,Extemporánea: sale el 19-nov
+14.eml,EMAIL_BODY,COMPLAINT,CUSTOMER_SERVICE,FILE,2026-12-09,TAC-2026-ER-04831,15 días hábiles; 8-dic festivo

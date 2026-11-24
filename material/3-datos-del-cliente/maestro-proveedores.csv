@@ -1,0 +1,11 @@
+nit,razon_social,correo_facturacion,banco,tipo_cuenta,numero_cuenta,estado,categoria
+901.234.567-1,Suministros Industriales del Llano S.A.S.,facturacion@suministrosllano.example,Banco de Bogotá,Corriente,123-45678-9,ACTIVO,EPP y suministros
+830.456.789-2,Ferretería y Eléctricos La 13 Ltda.,ventas@ferrela13.example,Davivienda,Ahorros,4567-0012-3456,ACTIVO,Ferretería
+900.876.543-5,Transportes Sabana Express S.A.S.,cartera@sabanaexpress.example,Bancolombia,Corriente,245-000123-45,ACTIVO,Transporte de carga
+901.112.233-4,Aseo Integral Bogotá S.A.S.,facturacion@aseointegralbogota.example,BBVA,Corriente,0013-0456-78-0100012345,ACTIVO,Aseo y cafetería
+860.555.444-3,Papelería y Suministros de Oficina Colombia S.A.,fe@papeleriacolombia.example,Banco de Occidente,Ahorros,987-65432-1,ACTIVO,Papelería
+900.333.222-8,Lubricantes y Combustibles de la Sabana S.A.S.,facturas@lubrisabana.example,Bancolombia,Corriente,310-998877-66,ACTIVO,Combustibles y lubricantes
+800.777.666-1,Vigilancia Técnica Andina Ltda.,contabilidad@vigiandina.example,Banco Popular,Corriente,220-11122-3,INACTIVO,Vigilancia
+901.999.000-7,Software Contable Nube S.A.S.,facturacion@contablenube.example,Bancolombia,Ahorros,540-332211-09,ACTIVO,Software
+900.654.321-0,Mantenimiento de Montacargas El Puerto S.A.S.,facturas@montacargaselpuerto.example,Davivienda,Corriente,0550-7788-9911,ACTIVO,Mantenimiento de equipos
+901.050.606-9,Servicios de Cafetería Doña Gloria S.A.S.,gloria.cafeteria@cafeteriagloria.example,Banco Caja Social,Ahorros,2400-556677,ACTIVO,Aseo y cafetería

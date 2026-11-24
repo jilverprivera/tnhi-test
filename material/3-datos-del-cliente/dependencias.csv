@@ -1,0 +1,6 @@
+codigo,dependencia,correo,que_recibe
+CUENTAS_POR_PAGAR,Contabilidad - Cuentas por pagar,cxp@terminalesandinas.example,Facturas de proveedores registrados que traen orden de compra
+COMPRAS,Compras y contratación,compras@terminalesandinas.example,Cotizaciones; facturas sin orden de compra; proveedores que no están registrados
+TALENTO_HUMANO,Talento humano - Viáticos,viaticos@terminalesandinas.example,Solicitudes y legalizaciones de viáticos
+JURIDICA,Oficina jurídica,juridica@terminalesandinas.example,"Derechos de petición, oficios de entes de control, tutelas, requerimientos de autoridades"
+ATENCION_USUARIO,Atención al usuario del terminal,atencion@terminalesandinas.example,Quejas y reclamos de transportadores y clientes del terminal

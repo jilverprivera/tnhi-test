@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./scripts/harness-verify.sh*)",
+      "Bash(uv run ruff*)",
+      "Bash(pnpm lint*)",
+      "Bash(pnpm build*)"
+    ]
+  }
+}
