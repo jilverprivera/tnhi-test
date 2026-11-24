@@ -30,7 +30,7 @@ The template decides which variant renders; organisms don't check viewport size 
 ## 4) Choosing the variant
 
 - CSS first: render both and hide one with `md:` classes when both are light.
-- `useMediaQuery` (`shared/lib/use-media-query.ts`) only when rendering both is expensive (e.g. the document viewer); provide an SSR-safe default (phone) to avoid hydration mismatch.
+- A `useMediaQuery` hook (would live in `shared/lib/use-media-query.ts`; not created yet) only when rendering both is expensive (e.g. the document viewer); provide an SSR-safe default (phone) to avoid hydration mismatch.
 
 ## 5) Shared variant logic
 

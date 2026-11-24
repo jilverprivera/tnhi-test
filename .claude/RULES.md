@@ -30,7 +30,7 @@ Complements `CLAUDE.md`. If a skill and this file disagree, this file wins.
 | Scope | Commands |
 |---|---|
 | backend | `./scripts/harness-verify.sh --backend` (ruff on changed files + pytest batches) |
-| frontend | `./scripts/harness-verify.sh --frontend` (pnpm lint + jest `--maxWorkers=1` batches), `cd frontend && pnpm build` |
+| frontend | `./scripts/harness-verify.sh --frontend` (pnpm lint + jest `--maxWorkers=1` batches), `cd web && pnpm build` |
 | e2e | `./scripts/harness-verify.sh --e2e` (Playwright `--workers=1`) |
 | cross-stack | `./scripts/harness-verify.sh --all` |
 
@@ -41,8 +41,8 @@ Never invent scripts that are not in `scripts/`, `pyproject.toml` or `package.js
 ## Domain hard rules
 
 - `material/` is read-only. Tests and the CLI work on copies.
-- The Excel ledger keeps its 12 columns, formats and existing rows; Docket only appends.
-- Filing numbers `TAC-2026-ER-#####` are assigned on approval, under a transactional lock, and never reused (voiding keeps the number).
+- The Excel ledger keeps its 12 columns and formats; Docket appends its rows and, through the two-way sync (`SyncLedger`), writes only the cells it changed — people's edits are merged, never overwritten, and an open file is never written.
+- Filing numbers `TAC-2026-ER-#####` are assigned on approval (`last_sequence() + 1` from the DB ledger), serialized by an in-process lock plus a DB unique constraint, and never reused. Multi-process deployments would need `SELECT ... FOR UPDATE` or a DB sequence (known gap); there is no voiding flow yet.
 - A document with any blocking reason is `NEEDS_REVIEW` and is never forwarded automatically.
 - Invoice fraud signals (bank account or sender domain differs from the supplier master) always end in `HOLD_FOR_VERIFICATION`.
 - Deadlines are Colombian business days, counted from the business day after reception, with the `holidays` CO calendar plus `TAC_EXTRA_HOLIDAYS`.
@@ -53,7 +53,7 @@ Never invent scripts that are not in `scripts/`, `pyproject.toml` or `package.js
 
 Every feature the system ships must come with Markdown documentation of how that part of the app works, in **both English and Spanish**, under the repository-root `docs/` folder:
 
-- `docs/en/features/<feature-slug>.md` and `docs/es/features/<feature-slug>.md`: same slug (the backend/frontend feature folder name: `inbox`, `document-review`, `ledger`, `deadlines`, `settings`, `ingestion`, `classification`, `filing`, `catalogs`, plus `pwa`), same section structure.
+- `docs/en/features/<feature-slug>.md` and `docs/es/features/<feature-slug>.md`: same slug (the api/web feature folder name: `inbox`, `document-review`, `ledger`, `deadlines`, `settings`, `ingestion`, `classification`, `filing`, `catalogs`, `audit`, `records`, `privacy`, `compliance`, plus `mcp`, `pwa`, `observability` and `evaluation`), same section structure.
 - Both listed in `docs/en/README.md` and `docs/es/README.md`.
 - Sections: purpose, who uses it (clerk / coordinator / AI assistant via MCP), how it works (flow), business rules, API endpoints or screens, reason/status codes it emits (`UPPER_SNAKE_CASE` with English and Spanish meaning), limitations, how it is tested.
 - A feature without both docs updated is **not done**; the reviewer rejects it.
@@ -63,7 +63,7 @@ Template: `.claude/skills/documentation-web/SKILL.md`.
 
 ## Mandatory audit events (backend)
 
-Every mutating or decision action (import, approve, correct, send to review, void, batch approve, catalog reload) records an audit event with: actor + role, timestamp, entity type + id, event code (`UPPER_SNAKE_CASE`), and a payload with the system proposal and the human correction when they differ. Details: `.claude/skills/audit-logging/SKILL.md`.
+Every mutating or decision action (import, proposal, approve, batch approve, correct, discard, supplier master replacement) records an audit event (`AuditRow`: autoincrement `id`, `at` timestamp, `actor`, `event` code in `UPPER_SNAKE_CASE`, `document_id`, JSON `details` such as the changed fields on a correction). Known gaps: rejected approvals are not audited and discard reasons are not masked. Details: `.claude/skills/audit-logging/SKILL.md`.
 
 ## Language
 

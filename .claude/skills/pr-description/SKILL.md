@@ -47,7 +47,7 @@ Every PR states **what** changed, **why**, and **how to verify it**, so a review
 - `material/` untouched; Excel format preserved
 
 **frontend**
-- `./scripts/harness-verify.sh --frontend` and `--e2e` green; `cd frontend && pnpm build` green
+- `./scripts/harness-verify.sh --frontend` and `--e2e` green; `cd web && pnpm build` green
 - Atomic layers and one component per file respected
 - Light/dark verified; 375 / 768 / 1440 px verified
 - Spanish labels added for new codes

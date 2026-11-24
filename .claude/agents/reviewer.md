@@ -6,7 +6,7 @@ tools: Read, Glob, Grep, Bash
 
 # Reviewer agent — Docket
 
-You approve or reject. **You do not edit** `backend/app`, `frontend/src`, tests or docs.
+You approve or reject. **You do not edit** `api/app`, `web/src`, tests or docs.
 
 ## Protocol
 
@@ -15,7 +15,7 @@ You approve or reject. **You do not edit** `backend/app`, `frontend/src`, tests 
 3. Review only the files listed in `impl_<subtopic>.md` (other agents may have changed other files; those are not this change's defects).
 4. Check architecture, naming, English-only code, `UPPER_SNAKE_CASE` codes, i18n, theme, audit events, `material/` untouched, Excel format preserved.
 5. **Check the feature docs**: `docs/en/features/<feature-slug>.md` and `docs/es/features/<feature-slug>.md` both exist, have the same sections, reflect this change (endpoints/screens, codes, rules), and are listed in `docs/en/README.md` and `docs/es/README.md`. **A feature is NOT done without them.**
-6. **Re-run** verification yourself through the harness only (`./scripts/harness-verify.sh --backend|--frontend|--e2e`, plus `cd frontend && pnpm build`); do not trust chat claims. Reject if the implementer ran tests outside the harness (bare `uv run pytest` over the tree, xdist, bare `pnpm test`, `--watch`, high `--maxWorkers`) or ran `--full` without being asked. Reject a backend use case or domain rule without pytest tests.
+6. **Re-run** verification yourself through the harness only (`./scripts/harness-verify.sh --backend|--frontend|--e2e`, plus `cd web && pnpm build`); do not trust chat claims. Reject if the implementer ran tests outside the harness (bare `uv run pytest` over the tree, xdist, bare `pnpm test`, `--watch`, high `--maxWorkers`) or ran `--full` without being asked. Reject a backend use case or domain rule without pytest tests.
 7. Write the verdict to `progress/<topic>/review_<subtopic>.md`.
 
 ## `review_<subtopic>.md` format

@@ -8,7 +8,7 @@
 #                                            plus e2e specs only when they changed)
 #   --changed   (default) tests mapped from files changed vs HEAD (+ untracked)
 #   --full      whole suite, still chunked; only when the user explicitly asks
-#   <paths>     explicit test files/dirs (repo-relative, e.g. backend/tests/shared/test_x.py)
+#   <paths>     explicit test files/dirs (repo-relative, e.g. api/tests/shared/test_x.py)
 #   --batch N   test files per batch (default 3)
 #
 # Environment:
@@ -22,8 +22,8 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
-BACKEND_DIR="${REPO_ROOT}/backend"
-FRONTEND_DIR="${REPO_ROOT}/frontend"
+BACKEND_DIR="${REPO_ROOT}/api"
+FRONTEND_DIR="${REPO_ROOT}/web"
 
 MIN_FREE_PCT="${DOCKET_MIN_FREE_MEM_PCT:-15}"
 RAM_RETRIES="${DOCKET_RAM_RETRIES:-6}"
@@ -51,8 +51,8 @@ usage() {
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --backend) TARGET="backend" ;;
-    --frontend) TARGET="frontend" ;;
+    --backend|--api) TARGET="backend" ;;
+    --frontend|--web) TARGET="frontend" ;;
     --e2e) TARGET="e2e" ;;
     --all) TARGET="all" ;;
     --changed) MODE="changed" ;;
@@ -175,7 +175,7 @@ changed_files() {
     log "not a git repository: treating files modified in the last ${CHANGED_MINUTES} minutes as changed" >&2
     (
       cd "${REPO_ROOT}"
-      find backend frontend -type f -mmin "-${CHANGED_MINUTES}" \
+      find api web -type f -mmin "-${CHANGED_MINUTES}" \
         -not -path '*/node_modules/*' -not -path '*/.venv/*' -not -path '*/__pycache__/*' \
         -not -path '*/.next/*' -not -path '*/.pytest_cache/*' -not -path '*/.ruff_cache/*' \
         2>/dev/null || true
@@ -199,24 +199,24 @@ find_frontend_tests_in() {
 map_backend_file() {
   local file="$1" rest slice
   case "${file}" in
-    backend/tests/*/test_*.py|backend/tests/test_*.py)
+    api/tests/*/test_*.py|api/tests/test_*.py)
       [[ -f "${REPO_ROOT}/${file}" ]] && echo "${file}"
       ;;
-    backend/app/features/*)
-      rest="${file#backend/app/features/}"
+    api/app/features/*)
+      rest="${file#api/app/features/}"
       slice="${rest%%/*}"
-      find_backend_tests_in "backend/tests/features/${slice}"
-      find_backend_tests_in "backend/tests/golden"
+      find_backend_tests_in "api/tests/features/${slice}"
+      find_backend_tests_in "api/tests/golden"
       ;;
-    backend/app/shared/*)
-      find_backend_tests_in "backend/tests/shared"
-      find_backend_tests_in "backend/tests/golden"
+    api/app/shared/*)
+      find_backend_tests_in "api/tests/shared"
+      find_backend_tests_in "api/tests/golden"
       ;;
-    backend/app/mcp/*)
-      find_backend_tests_in "backend/tests/mcp"
+    api/app/mcp/*)
+      find_backend_tests_in "api/tests/mcp"
       ;;
-    backend/app/*.py)
-      (cd "${REPO_ROOT}" && find backend/tests -maxdepth 1 -type f -name 'test_*.py' 2>/dev/null | sort)
+    api/app/*.py)
+      (cd "${REPO_ROOT}" && find api/tests -maxdepth 1 -type f -name 'test_*.py' 2>/dev/null | sort)
       ;;
   esac
   return 0
@@ -225,16 +225,16 @@ map_backend_file() {
 map_frontend_file() {
   local file="$1" rest feature
   case "${file}" in
-    frontend/src/*.test.ts|frontend/src/*.test.tsx)
+    web/src/*.test.ts|web/src/*.test.tsx)
       [[ -f "${REPO_ROOT}/${file}" ]] && echo "${file}"
       ;;
-    frontend/src/features/*)
-      rest="${file#frontend/src/features/}"
+    web/src/features/*)
+      rest="${file#web/src/features/}"
       feature="${rest%%/*}"
-      find_frontend_tests_in "frontend/src/features/${feature}"
+      find_frontend_tests_in "web/src/features/${feature}"
       ;;
-    frontend/src/shared/*)
-      find_frontend_tests_in "frontend/src/shared"
+    web/src/shared/*)
+      find_frontend_tests_in "web/src/shared"
       ;;
   esac
   return 0
@@ -252,20 +252,20 @@ collect_changed() {
   while IFS= read -r file; do
     [[ -n "${file}" ]] || continue
     case "${file}" in
-      backend/*)
+      api/*)
         BACKEND_CHANGED=1
         if [[ "${file}" == *.py && -f "${REPO_ROOT}/${file}" ]]; then
-          BACKEND_LINT_FILES+="${file#backend/}"$'\n'
+          BACKEND_LINT_FILES+="${file#api/}"$'\n'
         fi
         BACKEND_TESTS+="$(map_backend_file "${file}")"$'\n'
         ;;
-      frontend/e2e/*)
+      web/e2e/*)
         FRONTEND_CHANGED=1
         if [[ "${file}" == *.spec.ts && -f "${REPO_ROOT}/${file}" ]]; then
           E2E_SPECS+="${file}"$'\n'
         fi
         ;;
-      frontend/*)
+      web/*)
         FRONTEND_CHANGED=1
         FRONTEND_TESTS+="$(map_frontend_file "${file}")"$'\n'
         ;;
@@ -276,8 +276,8 @@ collect_changed() {
 collect_full() {
   BACKEND_CHANGED=1
   FRONTEND_CHANGED=1
-  BACKEND_TESTS="$(find_backend_tests_in backend/tests)"
-  FRONTEND_TESTS="$(find_frontend_tests_in frontend/src)"
+  BACKEND_TESTS="$(find_backend_tests_in api/tests)"
+  FRONTEND_TESTS="$(find_frontend_tests_in web/src)"
   E2E_SPECS="ALL"
 }
 
@@ -287,10 +287,10 @@ collect_explicit() {
     path="${path#./}"
     [[ -e "${REPO_ROOT}/${path}" ]] || die "path not found: ${path}"
     case "${path}" in
-      backend/*) BACKEND_CHANGED=1; BACKEND_TESTS+="${path}"$'\n' ;;
-      frontend/e2e*) FRONTEND_CHANGED=1; E2E_SPECS+="${path}"$'\n' ;;
-      frontend/*) FRONTEND_CHANGED=1; FRONTEND_TESTS+="${path}"$'\n' ;;
-      *) die "explicit paths must start with backend/ or frontend/: ${path}" ;;
+      api/*) BACKEND_CHANGED=1; BACKEND_TESTS+="${path}"$'\n' ;;
+      web/e2e*) FRONTEND_CHANGED=1; E2E_SPECS+="${path}"$'\n' ;;
+      web/*) FRONTEND_CHANGED=1; FRONTEND_TESTS+="${path}"$'\n' ;;
+      *) die "explicit paths must start with api/ or web/: ${path}" ;;
     esac
   done
 }
@@ -356,7 +356,7 @@ lint_backend() {
     return 0
   fi
   log "ruff check: ${files[*]}"
-  if (cd "${BACKEND_DIR}" && uv run ruff check "${files[@]}"); then
+  if (cd "${BACKEND_DIR}" && uv run ruff check --force-exclude "${files[@]}"); then
     SUMMARY+=("ruff: PASS")
   else
     SUMMARY+=("ruff: FAIL")
@@ -385,13 +385,13 @@ run_backend() {
   if [[ "${MODE}" != "explicit" ]]; then
     lint_backend || return 1
   fi
-  run_batches pytest "${BACKEND_DIR}" "backend/" "$(unique_lines "${BACKEND_TESTS}")" \
+  run_batches pytest "${BACKEND_DIR}" "api/" "$(unique_lines "${BACKEND_TESTS}")" \
     uv run pytest -q -p no:cacheprovider
 }
 
 run_frontend() {
   if ! frontend_ready; then
-    SUMMARY+=("frontend: frontend/package.json not found yet, skipped")
+    SUMMARY+=("frontend: web/package.json not found yet, skipped")
     return 0
   fi
   if [[ "${FRONTEND_CHANGED}" -eq 0 ]]; then
@@ -401,13 +401,13 @@ run_frontend() {
   if [[ "${MODE}" != "explicit" ]]; then
     lint_frontend || return 1
   fi
-  run_batches jest "${FRONTEND_DIR}" "frontend/" "$(unique_lines "${FRONTEND_TESTS}")" \
+  run_batches jest "${FRONTEND_DIR}" "web/" "$(unique_lines "${FRONTEND_TESTS}")" \
     pnpm exec jest --maxWorkers=1
 }
 
 run_e2e() {
   if ! frontend_ready; then
-    SUMMARY+=("e2e: frontend/package.json not found yet, skipped")
+    SUMMARY+=("e2e: web/package.json not found yet, skipped")
     return 0
   fi
   local specs
@@ -429,7 +429,7 @@ run_e2e() {
     SUMMARY+=("e2e: no changed specs (run --e2e --full before closing a UI flow change)")
     return 0
   fi
-  run_batches playwright "${FRONTEND_DIR}" "frontend/" "${specs}" \
+  run_batches playwright "${FRONTEND_DIR}" "web/" "${specs}" \
     pnpm exec playwright test --workers=1
 }
 

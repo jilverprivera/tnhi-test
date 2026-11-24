@@ -1,6 +1,6 @@
 ---
 name: ui-structure-web
-description: Enforces Docket UI component placement — one component per file (zero tolerance), atomic layers in shared/ui (primitives from shadcn, atoms, molecules, organisms, templates) vs feature components, the reuse-first gate, and import direction. Use when creating, splitting, moving or extracting any component in frontend/src.
+description: Enforces Docket UI component placement — one component per file (zero tolerance), atomic layers in shared/ui (primitives from shadcn, atoms, molecules, organisms, templates) vs feature components, the reuse-first gate, and import direction. Use when creating, splitting, moving or extracting any component in web/src.
 ---
 
 # Skill — UI structure (atomic design + reuse-first)
@@ -47,7 +47,7 @@ Shared only with 2 real consumers (atoms excepted: atoms always live in `shared/
 |---|---|---|
 | primitives | `button`, `dialog`, `table`, `sheet`, `badge` | external libs only |
 | atoms | `StatusDot`, `CodeLabel`, `FilingNumber`, `DueDateText` | primitives |
-| molecules | `StatusBadge`, `ReasonItem`, `EvidenceSnippet`, `FieldRow` | primitives, atoms |
+| molecules | `StatusBadge`, `ReasonItem`, `EvidenceSnippet`, `FieldRow`, `Pagination`, `DatePicker` (the only date field: no native date inputs) | primitives, atoms |
 | organisms | `InboxTable`, `InboxCardList`, `DocumentFieldsPanel`, `DeadlineGroup` | + molecules; may own state/hooks |
 | templates | `InboxTemplate`, `DocumentReviewTemplate`, `AppShell` | all lower layers |
 | routes (`app/`) | `page.tsx` | feature barrels, templates |

@@ -13,29 +13,29 @@ From a name alone, infer **what** a file is, **which slice** and **which layer**
 
 | Kind | Pattern | Example |
 |---|---|---|
-| Domain module | `features/<slice>/domain/<concept>.py` | `filing/domain/invoice_rules.py` |
+| Domain module | `features/<slice>/domain/<concept>.py` | `filing/domain/rules.py`, `filing/domain/outbox_composer.py`, `ledger/domain/filing_number.py` |
 | Ports | `features/<slice>/application/ports.py` | `ledger/application/ports.py` |
-| Use case | `features/<slice>/application/<verb>_<noun>.py` | `filing/application/approve_document.py` |
-| Adapter | `features/<slice>/infrastructure/<tech>_<noun>.py` | `ledger/infrastructure/openpyxl_ledger_workbook.py`, `sqlalchemy_ledger_repository.py`, `csv_catalogs.py` |
-| ORM rows | `features/<slice>/infrastructure/orm.py` | |
-| Router / schemas | `features/<slice>/api/router.py`, `schemas.py` | |
-| Test | `tests/features/<slice>/test_<module>.py` | `tests/features/filing/test_invoice_rules.py` |
+| Use case | `features/<slice>/application/<verb>_<noun>.py` (related read-only queries may share a module: `queries.py`, `use_cases.py`) | `filing/application/approve_documents.py`, `ingestion/application/import_emails.py` |
+| Adapter | `features/<slice>/infrastructure/<tech>_<noun>.py` | `ledger/infrastructure/excel_ledger.py`, `sql_ledger.py`, `catalogs/infrastructure/csv_catalogs.py`, `audit/infrastructure/sql_audit_log.py` |
+| ORM rows | `shared/infrastructure/db.py` (all `*Row` classes today) | |
+| Router / views | `features/<slice>/api/router.py` (request models inline), optional `views.py` | `filing/api/views.py` |
+| Test | `tests/features/<slice>/test_<topic>.py` | `tests/features/filing/test_rules.py` |
 
 ## Classes and symbols
 
 | Kind | Style | Example |
 |---|---|---|
-| Use case | `PascalCase` verb + noun, `__call__` | `ApproveDocument`, `AssignFilingNumber`, `ListDueDocuments` |
-| Port | `PascalCase` role noun (`Protocol`) | `LedgerRepository`, `SupplierCatalog`, `TextExtractor` |
-| Adapter | technology prefix + port name | `SqlAlchemyLedgerRepository`, `OpenpyxlLedgerWorkbook`, `TesseractOcrExtractor`, `ClaudeClassifier` |
-| ORM row | `<Entity>Row` | `LedgerEntryRow` |
-| API schema | `<Thing>Request` / `<Thing>Response` | `CorrectDocumentRequest` |
-| Domain error | `<Problem>Error` with `code` | `DocumentNotFoundError(code="DOCUMENT_NOT_FOUND")` |
+| Use case | `PascalCase` verb + noun, `__call__` | `ApproveDocuments`, `CorrectDocument`, `ImportEmails`, `ListDeadlines` |
+| Port | `PascalCase` role noun (`Protocol`) | `LedgerRepository`, `CatalogSource`, `TextExtractor`, `AuditLog` |
+| Adapter | technology prefix + port name | `SqlLedgerRepository`, `ExcelLedgerWorkbook`, `CsvCatalogs`, `PdfExtractor`, `TesseractOcr`, `ClaudeClassifier` |
+| ORM row | `<Entity>Row` | `LedgerRow`, `AuditRow` |
+| API request model | `<Thing>Request` (frontend raw response types are `<Thing>Response`) | `ApproveRequest`, `DiscardRequest` |
+| Domain error | `<Problem>Error` (plain exception; the router maps it to a code) | `DocumentNotFoundError` -> `DOCUMENT_NOT_FOUND` |
 | Enum | `PascalCase` class, `UPPER_SNAKE_CASE` members = values | `DocumentStatus.NEEDS_REVIEW` |
-| Functions, variables | `snake_case` | `count_business_days`, `due_date` |
-| Booleans | `is_` / `has_` / `should_` | `is_duplicate`, `has_purchase_order` |
-| Constants | `UPPER_SNAKE_CASE` | `FILING_NUMBER_WIDTH = 5` |
-| Codes (reason, error, event) | `UPPER_SNAKE_CASE` strings | `INVOICE_ACCOUNT_MISMATCH`, `DOCUMENT_APPROVED` |
+| Functions, variables | `snake_case` | `format_filing_number`, `due_date` |
+| Booleans | `is_` / `has_` / `should_` | `is_business_day`, `is_fileable` |
+| Constants | `UPPER_SNAKE_CASE` | `DIGITS = 5` (`ledger/domain/filing_number.py`) |
+| Codes (reason, error, event) | `UPPER_SNAKE_CASE` strings | `EMAIL_ACCOUNT_MISMATCH`, `DOCUMENT_APPROVED` |
 
 ## Language
 

@@ -1,6 +1,6 @@
 ---
 name: forms-web
-description: Standardizes Docket frontend forms with react-hook-form + zod — document correction, send-to-review note, settings (holidays, catalog reload), ledger search — with schemas in feature model/, Spanish error messages from i18n, and API error codes mapped to fields. Use when creating or changing any form in frontend/.
+description: Standardizes Docket frontend forms with react-hook-form + zod — document correction (today the only RHF form), discard reason, supplier master upload, login, ledger search — with schemas in feature model/, Spanish error messages from i18n, and API error codes mapped to fields. Use when creating or changing any form in web/.
 ---
 
 # Skill — Forms (react-hook-form + zod)
@@ -16,21 +16,22 @@ description: Standardizes Docket frontend forms with react-hook-form + zod — d
 | Piece | Location |
 |---|---|
 | Zod schema + inferred type | `features/<f>/model/schemas.ts` |
-| Form hook (`useForm`, submit, reset, server errors) | `features/<f>/hooks/use<Name>Form.ts` |
-| Submit call | `features/<f>/api/<verb>-<noun>.ts` |
-| Form UI | `features/<f>/components/organisms/<Name>Form.tsx` built from `shared/ui` primitives (`form`, `input`, `select`) |
+| Form hook (`useForm`, submit, reset, server errors) | inside the form organism today (`CorrectionSheet.tsx`); extract to `features/<f>/hooks/use<Name>Form.ts` when it grows |
+| Submit call | Server Action in `features/<f>/api/<f>-actions.ts` (e.g. `correctDocumentAction` in `document-review/api/document-actions.ts`), re-validating with the same zod schema |
+| Form UI | `features/<f>/components/organisms/<Name>.tsx` built from `shared/ui/primitives` (`input`, `select`, `textarea`, `label`, `sheet`) |
 
 Main forms:
-- `document-review`: `DocumentCorrectionForm` — document type, department, action, due date, extracted fields (NIT, invoice number, total, purchase order), note. Values are `UPPER_SNAKE_CASE` codes; selects show Spanish labels.
-- `document-review`: send to review with a mandatory note.
-- `settings`: extra holidays (ISO dates), catalog reload confirmation.
-- `ledger`: search box (URL search params, debounced).
+- `document-review`: `CorrectionSheet` (`documentCorrectionSchema` in `model/schemas.ts`) — document type, department, action, due date, urgent, notes. Values are `UPPER_SNAKE_CASE` codes; selects show Spanish labels. Extracted fields (NIT, invoice number, total) are not editable today.
+- `document-review`: discard with a mandatory reason (`ReviewActions`, plain `useState` + `discardDocumentAction`; no RHF yet).
+- `settings`: supplier master CSV upload (`SupplierMasterUpload`). Editing extra holidays from the UI does not exist (they come from `TAC_EXTRA_HOLIDAYS`).
+- `session`: `LoginForm` uses `useActionState` with `loginAction`.
+- `ledger`: `LedgerSearch` (URL search params).
 
 ## Validation and errors
 
-- Schema messages are i18n keys resolved to Spanish (`shared/i18n/form-errors.ts`), never hardcoded text.
-- NIT validated with the same verification-digit rule as the backend (shared helper in `shared/lib/nit.ts`), but the backend remains the authority.
-- API errors: `ApiError.code` -> `form.setError(field, ...)` when `params.field` is present, otherwise a form-level alert with the code's Spanish label.
+- Schema messages are Spanish strings in the zod schema today (`model/schemas.ts`); there is no `form-errors.ts`. Move them to `shared/i18n/es.ts` when a second form needs them.
+- No frontend NIT validation exists (no `shared/lib/nit.ts`); the backend is the authority (`NIT_CHECK_DIGIT_INVALID`).
+- API errors: the Server Action returns `ActionResult` `{ok: false, code}`; the form shows `toast.error(describeError(code))`. Map to `form.setError(field, ...)` when the error `detail` names a field (`VALIDATION_ERROR` `detail.errors[].field`).
 - Submit button disabled while `isSubmitting`; show inline progress on the button only.
 
 ## Accessibility

@@ -1,4 +1,4 @@
 .DS_Store
 node_modules/
-.env
-.env.local
+# Environment files and their templates are never committed
+.env*

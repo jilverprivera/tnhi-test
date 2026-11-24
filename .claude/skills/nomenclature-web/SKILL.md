@@ -1,6 +1,6 @@
 ---
 name: nomenclature-web
-description: Enforces naming conventions for Docket frontend files, components, hooks, api functions, model types, i18n keys and tests (features + shared + atomic design, English identifiers). Use when naming, renaming or placing any file or symbol in frontend/.
+description: Enforces naming conventions for Docket frontend files, components, hooks, api functions, model types, i18n keys and tests (features + shared + atomic design, English identifiers). Use when naming, renaming or placing any file or symbol in web/.
 ---
 
 # Skill — Frontend nomenclature
@@ -16,28 +16,28 @@ description: Enforces naming conventions for Docket frontend files, components, 
 | Kind | Pattern | Example |
 |---|---|---|
 | Primitive (shadcn) | `kebab-case.tsx` in `shared/ui/primitives/` | `button.tsx`, `sheet.tsx` |
-| Atom / molecule / organism / template | `PascalCase.tsx` | `StatusBadge.tsx`, `InboxTable.tsx`, `InboxTemplate.tsx` |
-| Skeleton | `<Name>Skeleton.tsx` next to its component | `InboxTableSkeleton.tsx` |
-| Hook | `use<Name>.ts` in `hooks/` | `useApproveDocument.ts`, `useInboxFilters.ts` |
-| API function module | `kebab-case.ts` in `api/` | `api/approve-document.ts` |
+| Atom / molecule / organism / template | `PascalCase.tsx` | `StatusBadge.tsx`, `InboxList.tsx`, `InboxTemplate.tsx` |
+| Skeleton | `<Name>Skeleton.tsx` next to its component | `templates/InboxSkeleton.tsx` |
+| Hook | `use<Name>.ts` in `hooks/` (none exist yet) | `useInboxFilters.ts` |
+| API function module | `<feature>-queries.ts` (server reads) / `<feature>-actions.ts` (Server Actions) in `api/` | `api/inbox-queries.ts`, `api/document-actions.ts` |
 | Model | `model/types.ts`, `model/mappers.ts`, `model/schemas.ts` (zod) | |
-| i18n | `shared/i18n/<namespace>.ts` | `shared/i18n/reason-codes.ts` |
-| Unit/component test | `__tests__/<Name>.test.tsx` | `features/inbox/__tests__/InboxTable.test.tsx` |
-| E2E spec | `frontend/e2e/<flow>.spec.ts` | `e2e/batch-approve.spec.ts` |
+| i18n | `shared/i18n/<locale>.ts` | `shared/i18n/es.ts` |
+| Unit/component test | `__tests__/<name>.test.ts(x)` | `features/inbox/__tests__/mappers.test.ts` |
+| E2E spec | `web/e2e/<flow>.spec.ts` | `e2e/filing-flow.spec.ts` |
 
 ## Symbols
 
 | Kind | Style | Example |
 |---|---|---|
-| Components | `PascalCase` | `DocumentFieldsPanel` |
-| Hooks | `useCamelCase` | `useDocumentCorrectionForm` |
-| API functions | verb + noun, camelCase | `fetchInbox`, `approveDocument`, `correctDocument` |
-| API types (raw) | `<Thing>Response` / `<Thing>Request`, keys `snake_case` | `DocumentResponse` |
-| View models | `<Thing>View`, keys `camelCase` | `DocumentView` |
-| Mappers | `to<Thing>View` | `toDocumentView` |
+| Components | `PascalCase` | `CorrectionSheet`, `ReviewActions` |
+| Hooks | `useCamelCase` | `useInboxFilters` |
+| API functions | queries `fetch<Thing>`; Server Actions verb + noun + `Action` | `fetchInbox`, `fetchDocument`, `approveDocumentAction`, `correctDocumentAction` |
+| API types (raw) | `<Thing>Response`, keys `snake_case`, in `shared/lib/api-types.ts` | `InboxItemResponse`, `DecisionResponse` |
+| View models | `<Thing>View`, keys `camelCase` | `InboxItemView`, `DocumentDetailView` |
+| Mappers | `to<Thing>View` | `toInboxItemView`, `toDocumentDetailView` |
 | Zod schemas | `<name>Schema` | `documentCorrectionSchema` |
-| Code unions | `PascalCase` type, `UPPER_SNAKE_CASE` members | `type ReasonCode = "INVOICE_ACCOUNT_MISMATCH" | ...` |
-| Constants | `UPPER_SNAKE_CASE` | `INBOX_PAGE_SIZE` |
+| Code unions | `PascalCase` type, `UPPER_SNAKE_CASE` members | `type OutboxKind = "FORWARD_TO_DEPARTMENT" | ...` |
+| Constants | `UPPER_SNAKE_CASE` | `INBOX_FILTERS`, `DOCUMENT_STATUSES` |
 | Booleans | `is` / `has` / `should` | `isUrgent`, `hasReasons` |
 
 ## Imports

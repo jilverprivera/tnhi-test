@@ -44,7 +44,7 @@ CHANGES_REQUESTED -> progress/<topic>/review_<subtopic>.md
 
 ## Working next to other agents
 
-Another agent may be editing the tree (often `backend/`) at the same time.
+Another agent may be editing the tree (often `api/`) at the same time.
 
 - Every subagent gets an explicit list of paths it may write. Parallel subagents get disjoint paths.
 - Re-read a file right before editing; make targeted edits; never revert or reformat lines you did not write.
@@ -61,16 +61,16 @@ Another agent may be editing the tree (often `backend/`) at the same time.
 | Scope | Command |
 |---|---|
 | backend | `./scripts/harness-verify.sh --backend` |
-| frontend | `./scripts/harness-verify.sh --frontend`, then `cd frontend && pnpm build` |
+| frontend | `./scripts/harness-verify.sh --frontend`, then `cd web && pnpm build` |
 | e2e | `./scripts/harness-verify.sh --e2e` |
 | cross-stack | `./scripts/harness-verify.sh --all` |
-| one file | `./scripts/harness-verify.sh backend/tests/features/ledger/test_assign_filing_number.py` |
+| one file | `./scripts/harness-verify.sh api/tests/features/ledger/test_excel_ledger.py` |
 | whole suite | `./scripts/harness-verify.sh --all --full` — **only when the user explicitly asks** |
 
 What the script does:
 
-- `--changed` (default): files from `git diff --name-only HEAD` + untracked. Backend `backend/app/features/<slice>/**` -> `backend/tests/features/<slice>/test_*.py` (+ `backend/tests/golden/`); `backend/app/shared/**` -> `backend/tests/shared/` (+ golden); `backend/app/mcp/**` -> `backend/tests/mcp/`. Frontend `frontend/src/features/<f>/**` -> tests under that feature; `frontend/src/shared/**` -> tests under `shared/`. Changed test files map to themselves; changed `frontend/e2e/*.spec.ts` run as e2e.
-- Lint first: `uv run ruff check` on changed backend files; `pnpm lint` only when frontend files changed (skipped while `frontend/package.json` does not exist).
+- `--changed` (default): files from `git diff --name-only HEAD` + untracked. Backend `api/app/features/<slice>/**` -> `api/tests/features/<slice>/test_*.py` (+ `api/tests/golden/`); `api/app/shared/**` -> `api/tests/shared/` (+ golden); `api/app/mcp/**` -> `api/tests/mcp/`. Frontend `web/src/features/<f>/**` -> tests under that feature; `web/src/shared/**` -> tests under `shared/`. Changed test files map to themselves; changed `web/e2e/*.spec.ts` run as e2e.
+- Lint first: `uv run ruff check` on changed backend files; `pnpm lint` only when frontend files changed (skipped while `web/package.json` does not exist).
 - Batches of `--batch N` files (default 3), one at a time: `uv run pytest -q -p no:cacheprovider <files>`, `pnpm exec jest --maxWorkers=1 <files>`, `pnpm exec playwright test --workers=1 <specs>`.
 - Per-runner lock (`${TMPDIR}/docket-locks/{pytest,jest,playwright}.lock`, waits up to `DOCKET_LOCK_TIMEOUT_SEC`=600) so parallel agents never stack test processes.
 - RAM guard before each batch: aborts if free memory stays under `DOCKET_MIN_FREE_MEM_PCT` (15) after `DOCKET_RAM_RETRIES` waits.

@@ -1,0 +1,31 @@
+# On-prem deployment: everything stays inside TAC's network.
+#   docker compose up --build   ->  web on http://localhost:3000, API on http://localhost:8000
+services:
+  api:
+    build: { context: ., dockerfile: api/Dockerfile }
+    # Business values, access codes and AI switch come from api/.env (copy api/.env.example).
+    # Paths are the container's own, so they are set here and override the file.
+    env_file: ./api/.env
+    environment:
+      PORT: 8000
+      TAC_DATA_DIR: /data
+      TAC_DATABASE_URL: sqlite:////data/tac.db
+      TAC_INBOX_DIR: /srv/material/2-bandeja-de-entrada
+      TAC_SUPPLIERS_CSV: /srv/material/3-datos-del-cliente/maestro-proveedores.csv
+      TAC_DEPARTMENTS_CSV: /srv/material/3-datos-del-cliente/dependencias.csv
+      TAC_LEDGER_XLSX: /srv/material/3-datos-del-cliente/libro-radicacion-2026.xlsx
+    volumes: [docket-data:/data]
+    ports: ["8000:8000"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      interval: 10s
+      retries: 5
+  web:
+    build: { context: ., dockerfile: web/Dockerfile }
+    environment:
+      DOCKET_API_URL: http://api:8000
+    ports: ["3000:3000"]
+    depends_on:
+      api: { condition: service_healthy }
+volumes:
+  docket-data:

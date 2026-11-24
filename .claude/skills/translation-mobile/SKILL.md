@@ -5,7 +5,7 @@ description: i18n rules for Docket on small screens and the installed PWA (no na
 
 # Skill — i18n for compact UI and the PWA
 
-> Base rules: `translation-web` (Spanish labels over English `UPPER_SNAKE_CASE` codes, typed dictionaries in `frontend/src/shared/i18n/`, nothing hardcoded).
+> Base rules: `translation-web` (Spanish labels over English `UPPER_SNAKE_CASE` codes, typed dictionaries in `web/src/shared/i18n/`, nothing hardcoded).
 
 ## Short labels
 
@@ -21,9 +21,9 @@ export const STATUS_LABELS: Record<DocumentStatus, { label: string; short: strin
 
 Use `short` only in compact layouts; the full label stays available as `title`/`aria-label`.
 
-## PWA strings (`shared/i18n/pwa.ts`)
+## PWA strings (`app/manifest.ts` + `shared/i18n/es.ts`)
 
-- Manifest: `name` "Docket — Radicación TAC", `short_name` "Docket", Spanish `description`; `lang: "es-CO"`.
+- Manifest: `name` "Docket · Radicación TAC", `short_name` "Docket", Spanish `description`; `lang: "es-CO"`.
 - Offline banner, "datos de <hora>" (last updated), install prompt, "nueva versión disponible" update prompt.
 - Offline-disabled action explanation ("Sin conexión: no se puede radicar").
 

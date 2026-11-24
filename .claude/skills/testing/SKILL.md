@@ -12,18 +12,22 @@ Ship without regressions. **The backend must have tests**: every new or changed 
 ## Layout
 
 ```
-backend/tests/
-  conftest.py                     # shared fixtures: settings with temp dirs, in-memory DB, fakes
-  shared/                         # business_calendar, identifiers, client_vocabulary
+api/tests/
+  conftest.py                     # shared fixtures: settings with temp dirs, temp DB, container, inbox_files, OCR_AVAILABLE
+  shared/                         # test_business_calendar.py, test_identifiers.py
   features/<slice>/
-    test_<domain_module>.py       # pure rules
-    test_<use_case>.py            # use cases with fake ports
-    test_<adapter>.py             # adapters against temp files / temp DB
-    test_router.py                # FastAPI TestClient
-  mcp/test_server.py              # each read-only tool
+    test_<topic>.py               # pure rules, use cases and adapters of that slice
+                                  # (e.g. filing/test_rules.py, filing/test_approve_and_correct.py,
+                                  #  ledger/test_excel_ledger.py, classification/test_assisted_classifier.py)
+  api/test_api.py                 # FastAPI TestClient over the routers
+  mcp/test_mcp_server.py          # each read-only tool
   golden/
-    test_golden_inbox.py          # full pipeline over material/2-bandeja-de-entrada
-    expected_full.csv             # the 16-row expected table (8 from the client + 8 justified)
+    test_golden.py                # full pipeline over material/2-bandeja-de-entrada
+    esperado-parcial.csv          # copy of the client's partial table
+    esperado-completo.csv         # the full expected table (client rows + justified rows)
+    test_evaluate.py              # app/evaluate.py agrees with the golden tests
+  blind/                          # 60 e-mails / 65 docs written without seeing the code (README.md, generar.py)
+    test_blind_baseline.py        # floor: >= 45 correct, <= 6 wrong, money-safety never silently wrong
 ```
 
 ## Running tests: chunked through the harness only (HARD RULE)
@@ -32,11 +36,11 @@ backend/tests/
 
 ```bash
 ./scripts/harness-verify.sh --backend                                   # ruff on changed files + pytest batches for changed slices
-./scripts/harness-verify.sh backend/tests/features/filing/test_invoice_rules.py   # explicit file(s)
+./scripts/harness-verify.sh api/tests/features/filing/test_rules.py          # explicit file(s)
 ./scripts/harness-verify.sh --backend --full                            # whole suite, chunked: only when the user asks
 ```
 
-The harness runs `uv run pytest -q -p no:cacheprovider` on 3 files per batch, one batch at a time, under the `pytest` lock, with a RAM guard. Keep test files mapped to the layout below so `--changed` finds them (`backend/app/features/<slice>/**` -> `backend/tests/features/<slice>/`). Report which batches ran.
+The harness runs `uv run pytest -q -p no:cacheprovider` on 3 files per batch, one batch at a time, under the `pytest` lock, with a RAM guard. Keep test files mapped to the layout below so `--changed` finds them (`api/app/features/<slice>/**` -> `api/tests/features/<slice>/`). Report which batches ran.
 
 ## Policy (HARD RULE)
 
@@ -45,7 +49,7 @@ The harness runs `uv run pytest -q -p no:cacheprovider` on 3 files per batch, on
 | Domain rule / calculation | Unit, table-driven (`pytest.mark.parametrize`) |
 | Use case | Unit with fake ports (plain classes implementing the Protocol) |
 | Adapter (eml, pdf/ocr, csv, SQLAlchemy, openpyxl) | Against fixtures or temp copies |
-| Router | `TestClient`: status codes, `snake_case` keys, `UPPER_SNAKE_CASE` codes |
+| Router | `TestClient` (in `api/tests/api/test_api.py`): status codes, `snake_case` keys, `UPPER_SNAKE_CASE` codes |
 | MCP tool | Call the tool function, assert read-only result |
 | Bug fix | Regression test that fails before the fix |
 
@@ -61,8 +65,12 @@ The harness runs `uv run pytest -q -p no:cacheprovider` on 3 files per batch, on
 ## Golden test
 
 - Runs the whole pipeline with `today=2026-11-18` on a temp copy of the client data.
-- Must match 100 % of `material/4-para-medirte/esperado-parcial.csv` and the full expected table for type, department, action, due date and filing number.
+- Must match 100 % of `material/4-para-medirte/esperado-parcial.csv` and the full expected table (`api/tests/golden/esperado-completo.csv`) for type, department, action, due date and filing number.
 - Never edit expected files to make the test pass without a written justification in the feature docs.
+
+## Blind baseline
+
+- `api/tests/blind/` is a measurement, not a target: never tune rules to it. `test_blind_baseline.py` is a floor (needs Tesseract; skipped otherwise). Raising the floor requires a **new** blind set. Run it with `uv run python -m app.evaluate --data-dir <tmp> --set blind`; see `docs/en/features/evaluation.md`.
 
 ## Rules
 

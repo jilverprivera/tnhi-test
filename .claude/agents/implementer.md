@@ -17,9 +17,9 @@ You execute **one task** from `progress/<topic>/plan.md` (or explicit instructio
 5. Create or update the feature docs in **both** `docs/en/features/<feature-slug>.md` and `docs/es/features/<feature-slug>.md`, and the `docs/en/README.md` / `docs/es/README.md` indexes (`documentation-web`).
 6. Verify **only through the harness** (chunked, locked, RAM-guarded):
    - backend: `./scripts/harness-verify.sh --backend`
-   - frontend: `./scripts/harness-verify.sh --frontend` and `cd frontend && pnpm build`
+   - frontend: `./scripts/harness-verify.sh --frontend` and `cd web && pnpm build`
    - e2e: `./scripts/harness-verify.sh --e2e`
-   - a single file while iterating: `./scripts/harness-verify.sh backend/tests/features/<slice>/test_x.py`
+   - a single file while iterating: `./scripts/harness-verify.sh api/tests/features/<slice>/test_x.py`
    Never run bare `uv run pytest` over the tree, `pytest -n auto`, `--looponfail`, bare `pnpm test`, `npx jest`, `--watch` or high `--maxWorkers`. Never `--full` unless the leader or user asks. Fix failures before continuing.
 7. Write `progress/<topic>/impl_<subtopic>.md`: touched files (code, tests, docs), harness commands run, batch summary, open issues.
 8. Do not self-approve; the reviewer decides.
@@ -29,7 +29,7 @@ You execute **one task** from `progress/<topic>/plan.md` (or explicit instructio
 | Scope | Required in addition to lint/tests |
 |---|---|
 | any feature | Bilingual docs in `docs/en/` and `docs/es/` |
-| backend use case / rule | pytest tests in `backend/tests/features/<slice>/` |
+| backend use case / rule | pytest tests in `api/tests/features/<slice>/` |
 | backend mutation | Audit event (`audit-logging`) |
 | backend persistence / Excel | `prisma` skill (SQLAlchemy + openpyxl ledger) |
 | backend rules | Golden test still 100 % |

@@ -5,20 +5,20 @@ description: Touch-friendly forms for the Docket frontend on phones and tablets 
 
 # Skill — Forms on touch devices (react-hook-form + zod)
 
-> Base rules: `forms-web` (RHF + `zodResolver`, schemas in `features/<f>/model/schemas.ts`, form hook `use<Name>Form.ts`, codes as values, Spanish labels, API error codes mapped to fields).
+> Base rules: `forms-web` (RHF + `zodResolver`, schemas in `features/<f>/model/schemas.ts`, form logic in the form organism, e.g. `CorrectionSheet.tsx`, codes as values, Spanish labels, API error codes mapped to fields).
 
 ## Rules
 
 1. Every form uses `react-hook-form` + zod; no per-field `useState`, no inline validation.
 2. Default values always provided (the system proposal pre-fills corrections, so on a phone the clerk changes only what is wrong).
-3. Error messages from `shared/i18n/form-errors.ts`, shown inline under the field.
+3. Error messages in Spanish (today written in the zod schema; there is no `form-errors.ts`), shown inline under the field.
 
 ## Inputs for touch
 
 | Field | Attributes |
 |---|---|
 | NIT, invoice total, ID numbers | `inputMode="numeric"`, `autoComplete="off"` |
-| Due date, holidays | native `type="date"` (opens the OS picker) |
+| Due date, holidays, preview dates | `DatePicker` (`shared/ui/molecules/DatePicker.tsx`: shadcn `Calendar` + `Popover`, Spanish locale, "Hoy" = case date, "Borrar", hidden input for GET forms); never a native `type="date"` |
 | Department, action, document type | shadcn `Select` (or native `select` on phones) with Spanish labels, code values |
 | Notes | `textarea` with `enterKeyHint="done"` |
 | Search | `type="search"`, `enterKeyHint="search"` |

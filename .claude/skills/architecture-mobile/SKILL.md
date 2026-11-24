@@ -27,7 +27,7 @@ Same data, different organisms: switch with CSS (`hidden md:block`) when both ar
 
 ## App shell and navigation
 
-- `shared/ui/templates/AppShell`: bottom tab bar on phones (Bandeja, Libro, Vencimientos, Ajustes), sidebar on `lg:`.
+- `shared/ui/organisms/AppShell` (with `AppNav` `variant="tabbar" | "sidebar"`): bottom tab bar on phones (Bandeja, Libro, Vencimientos, Ajustes), sidebar on `lg:`.
 - Respect safe areas (`env(safe-area-inset-*)`) in the shell and sticky bars.
 - Back navigation uses real routes (`/documents/[id]`), so the browser/OS back gesture works.
 

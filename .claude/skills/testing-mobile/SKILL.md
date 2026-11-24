@@ -11,20 +11,19 @@ description: Testing the Docket frontend on small viewports and as a PWA (no nat
 - **Jest + RTL** for hooks and adaptive components (`useMediaQuery`, `useOnlineStatus`, `InboxCardList`).
 - **Lighthouse** (manual or CI) for PWA/accessibility scores.
 
-## Playwright projects (`frontend/playwright.config.ts`)
+## Playwright projects (`web/playwright.config.ts`)
 
 ```ts
 workers: 1,
 fullyParallel: false,
 projects: [
-  { name: "desktop-chrome", use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 } } },
-  { name: "tablet-ipad",    use: { ...devices["iPad (gen 7)"] } },
-  { name: "phone-iphone",   use: { ...devices["iPhone 13"] } },
-  { name: "phone-pixel",    use: { ...devices["Pixel 7"] } },
+  { name: "desktop", use: { ...devices["Desktop Chrome"] }, testIgnore: /mobile\.spec\.ts/ },
+  { name: "phone",   use: { ...devices["Pixel 7"] },        testMatch: /mobile\.spec\.ts/ },
 ]
+// add tablet / iPhone projects here when needed
 ```
 
-Phone-only specs: `e2e/<flow>.mobile.spec.ts`, filtered to phone projects.
+Phone-only specs: `e2e/mobile.spec.ts` (or `e2e/<flow>.mobile.spec.ts`), matched only by the `phone` project.
 
 ## What to test
 
@@ -35,7 +34,7 @@ Phone-only specs: `e2e/<flow>.mobile.spec.ts`, filtered to phone projects.
 | Navigation | Bottom tab bar reaches inbox, ledger, deadlines, settings |
 | Offline | Load deadlines online, `context.setOffline(true)`, reload: cached data + offline banner; approve buttons disabled |
 | PWA | `/manifest.webmanifest` served with name, icons, `display: standalone`; service worker registers in a production build |
-| Hooks | `useOnlineStatus` reacts to `online`/`offline` events; `useMediaQuery` SSR default |
+| Hooks | (when created) `useOnlineStatus` reacts to `online`/`offline` events; `useMediaQuery` SSR default |
 
 Service-worker tests need a production build (`pnpm build` + `pnpm start` via Playwright `webServer`).
 
@@ -45,7 +44,7 @@ Never run Playwright or Jest outside the harness or with parallel workers:
 
 ```bash
 ./scripts/harness-verify.sh --e2e                                   # changed specs, --workers=1
-./scripts/harness-verify.sh frontend/e2e/deadlines.mobile.spec.ts   # explicit spec
+./scripts/harness-verify.sh web/e2e/deadlines.mobile.spec.ts   # explicit spec
 ./scripts/harness-verify.sh --frontend                              # jest batches, --maxWorkers=1
 ```
 

@@ -18,9 +18,9 @@ description: Naming conventions for Docket's responsive and PWA artifacts (no na
 | Card item | `<Thing>Card.tsx` | `DeadlineCard.tsx` |
 | Bottom sheet | `<Purpose>Sheet.tsx` | `DocumentOriginalSheet.tsx` |
 | Sticky action bar | `<Purpose>StickyBar.tsx` | `BatchApproveStickyBar.tsx` |
-| Navigation | `BottomTabBar.tsx`, `AppSidebar.tsx` | |
-| Viewport / PWA hooks | `use-<name>.ts` in `shared/lib/` exporting `use<Name>` | `use-media-query.ts` -> `useMediaQuery`, `use-online-status.ts` -> `useOnlineStatus`, `use-install-prompt.ts` -> `useInstallPrompt` |
-| E2E device spec | `e2e/<flow>.mobile.spec.ts` when phone-only | `e2e/deadlines.mobile.spec.ts` |
+| Navigation | one component with a variant prop | `shared/ui/organisms/AppNav.tsx` (`variant: "sidebar" | "tabbar"`), `ActiveAppNav.tsx` |
+| Viewport / PWA hooks | `use-<name>.ts` in `shared/lib/` exporting `use<Name>` | `use-media-query.ts` -> `useMediaQuery` (none exist yet) |
+| E2E device spec | `e2e/<flow>.spec.ts` matched by the `phone` project when phone-only | `e2e/mobile.spec.ts` |
 
 ## Rules
 

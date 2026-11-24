@@ -10,7 +10,7 @@ The implementer self-checks; the reviewer verifies and records each item in `rev
 ## C2 — Conventions
 - [ ] All code, identifiers, comments and test names in English.
 - [ ] API values and error codes `UPPER_SNAKE_CASE`; JSON keys `snake_case`.
-- [ ] Spanish only in `frontend/src/shared/i18n/` and Excel ledger values (via `client_vocabulary.py`).
+- [ ] Spanish only in `web/src/shared/i18n/` and Excel ledger values (via `client_vocabulary.py`).
 - [ ] No secrets in code; config through `app/shared/config.py` (`TAC_*`).
 - [ ] Light and dark theme supported with tokens; layout works at 375, 768 and 1440 px.
 
@@ -30,7 +30,7 @@ The implementer self-checks; the reviewer verifies and records each item in `rev
 ## C5 — Verification evidence (chunked, never one big run)
 - [ ] Tests ran only through `./scripts/harness-verify.sh` (no bare `uv run pytest` over the tree, no bare `pnpm test`, no xdist/`--watch`/high `--maxWorkers`).
 - [ ] Backend: `./scripts/harness-verify.sh --backend` green (ruff + pytest batches).
-- [ ] Frontend: `./scripts/harness-verify.sh --frontend` green and `cd frontend && pnpm build` green.
+- [ ] Frontend: `./scripts/harness-verify.sh --frontend` green and `cd web && pnpm build` green.
 - [ ] E2E: `./scripts/harness-verify.sh --e2e` green for changed specs (Playwright `--workers=1`).
 - [ ] `--full` only if the user asked for it.
 - [ ] Batches run and the summary output recorded in `impl_<topic>.md`.

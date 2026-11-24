@@ -21,7 +21,7 @@ docs/
     features/<feature-slug>.md
 ```
 
-- `<feature-slug>` = the feature folder name: backend slices `ingestion`, `classification`, `filing`, `ledger`, `deadlines`, `catalogs`; frontend features `inbox`, `document-review`, `ledger`, `deadlines`, `settings`; cross-cutting `pwa` (see `documentation-mobile`). When a backend slice and a frontend feature share a slug (`ledger`, `deadlines`), one doc covers both sides.
+- `<feature-slug>` = the feature folder name: backend slices `ingestion`, `classification`, `filing`, `ledger`, `deadlines`, `catalogs`, `audit`, plus `mcp` (the read-only MCP server); frontend features `inbox`, `document-review`, `ledger`, `deadlines`, `settings`; cross-cutting `pwa` (see `documentation-mobile`). When a backend slice and a frontend feature share a slug (`ledger`, `deadlines`), one doc covers both sides.
 - Same slug, same headings, same order in both languages. Spanish file uses Spanish headings with the same meaning.
 - `docs/en/` and `docs/es/` also hold the interview deliverables (executive summary, architecture, features, solution, domain model, quality attributes); the README lists them too.
 - Code identifiers, endpoints and codes stay in English inside the Spanish docs (they are names, not prose).
@@ -49,7 +49,7 @@ Endpoints (method, path, request/response keys) and/or routes and main component
 ## Codes
 | Code | Meaning (EN) | Significado (ES) | Blocking? |
 |---|---|---|---|
-| `INVOICE_ACCOUNT_MISMATCH` | Bank account differs from supplier master | La cuenta difiere del maestro de proveedores | Yes |
+| `EMAIL_ACCOUNT_MISMATCH` | The e-mail asks to pay into an account that differs from the supplier master | El correo pide consignar a una cuenta distinta a la del maestro de proveedores | Yes |
 
 ## Limitations
 Known gaps and technical debt.

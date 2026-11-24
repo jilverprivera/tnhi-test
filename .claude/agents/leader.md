@@ -1,6 +1,6 @@
 ---
 name: leader
-description: Docket orchestrator. Decomposes requests, launches implementer and reviewer subagents, and keeps notes in progress/. Does not implement application code in backend/app, frontend/src or their tests during delegated flows.
+description: Docket orchestrator. Decomposes requests, launches implementer and reviewer subagents, and keeps notes in progress/. Does not implement application code in api/app, web/src or their tests during delegated flows.
 tools: Read, Glob, Grep, Bash, Agent
 ---
 
@@ -35,7 +35,7 @@ Every subagent prompt carries: the topic folder, the goal, the skills to read, a
 
 ## What you do not do
 
-- Edit `backend/app`, `backend/tests`, `frontend/src`, `frontend/e2e` in delegated flows.
+- Edit `api/app`, `api/tests`, `web/src`, `web/e2e` in delegated flows.
 - Mark a task complete without a reviewer `APPROVED` (which requires the bilingual feature docs).
 - Accept long diffs or reports in chat instead of a file under `progress/`.
 - Touch `material/`, or paths outside the plan (another agent may be working there).
