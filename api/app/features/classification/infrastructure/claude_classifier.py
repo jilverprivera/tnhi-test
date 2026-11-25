@@ -1,4 +1,4 @@
-"""Adapter: Claude as a second opinion for ambiguous documents (off by default).
+"""Adapter: Claude validates the type of scanned documents the OCR is unsure about.
 
 Personal data is masked before the text leaves TAC (shared/domain/privacy.py).
 """

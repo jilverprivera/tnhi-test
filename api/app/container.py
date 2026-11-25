@@ -170,6 +170,7 @@ class Container:
             self.assisted_classifier,
             self.settings.require("company_nit"),
             self.settings.require("min_classification_margin"),
+            self.settings.require("min_ocr_confidence"),
         )
         return ProposeFiling(
             classify,

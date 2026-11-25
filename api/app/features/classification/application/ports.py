@@ -6,7 +6,7 @@ from app.shared.domain.models import DocumentType
 
 
 class AssistedClassifier(Protocol):
-    """Second opinion for ambiguous free text. Optional; it never acts on its own."""
+    """Validates the type of a low-confidence OCR reading. Optional; it never acts on its own."""
 
     @property
     def enabled(self) -> bool: ...
